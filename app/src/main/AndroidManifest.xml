@@ -29,10 +29,10 @@
             android:name=".CreateAccount"
             android:label="@string/title_activity_create_account" />
         <!-- <activity android:name=".MainActivity" /> -->
-        <!-- <activity android:name=".AddMeal" /> -->
         <!-- <activity android:name=".LoginPage" /> -->
         <!-- <activity android:name=".CreateAccount"></activity> -->
-        <activity android:name=".ViewMeal"></activity>
+        <activity android:name=".ViewMeal" />
+        <activity android:name=".AddMeal"></activity>
     </application>
 
 </manifest>

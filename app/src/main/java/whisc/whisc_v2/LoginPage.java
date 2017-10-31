@@ -42,7 +42,6 @@ public class LoginPage extends AppCompatActivity {
                 // Intent code for open new activity through intent.
 
                 Intent intent = new Intent(LoginPage.this, CreateAccount.class);
-//                Intent intent = new Intent(WelcomeScreen.this, AddMeal.class);
                 startActivity(intent);
 
             }

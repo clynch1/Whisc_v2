@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * The {@link ViewPager} that will host the section contents.
      */
+    SQLiteHelper sqliteDB;
     private ViewPager mViewPager;
 
     @Override
@@ -57,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_account_circle_black_24dp);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_dashboard_black_24dp);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_favorite_black_24dp);
+
+//        sqliteDB = new SQLiteHelper(this);
 
 //      FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //      fab.setOnClickListener(new View.OnClickListener() {
