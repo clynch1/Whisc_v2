@@ -16,7 +16,7 @@ public class AddMeal extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_meal);
-        sqliteDB = new SQLiteHelper(this);
+//        sqliteDB = new SQLiteHelper(this);
 
         editName = (EditText) findViewById(R.id.addMealName);
         editDescription = (EditText) findViewById(R.id.addMealDescription);
@@ -25,27 +25,27 @@ public class AddMeal extends AppCompatActivity {
         editServing_size = (EditText) findViewById(R.id.addServingSize);
         editDirections = (EditText) findViewById(R.id.addDirections);
         btnAddData = (Button) findViewById(R.id.addMealButton);
-//        AddData();
+        AddData();
     }
-//    public void AddData (){
-//        btnAddData.setOnClickListener(
-//                new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        boolean isInserted = sqliteDB.insertData(editName.getText().toString(),
-//                                editDescription.getText().toString(),
-//                                editPrep_time.getText().toString(),
-//                                editCook_time.getText().toString(),
-//                                editServing_size.getText().toString(),
-//                                editDirections.getText().toString());
-//                        if(isInserted = true){
-//                            Toast.makeText(AddMeal.this, "Recipe Added", Toast.LENGTH_LONG).show();
-//                        }
-//                        else{
-//                            Toast.makeText(AddMeal.this, "Recipe Not Added", Toast.LENGTH_LONG).show();
-//                        }
-//                    }
-//                }
-//        );
-//    }
+    public void AddData (){
+        btnAddData.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        boolean isInserted = sqliteDB.insertData(editName.getText().toString(),
+                                editDescription.getText().toString(),
+                                editPrep_time.getText().toString(),
+                                editCook_time.getText().toString(),
+                                editServing_size.getText().toString(),
+                                editDirections.getText().toString());
+                        if(isInserted = true){
+                            Toast.makeText(AddMeal.this, "Recipe Added", Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            Toast.makeText(AddMeal.this, "Recipe Not Added", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+        );
+    }
 }

@@ -1,5 +1,7 @@
 package whisc.whisc_v2;
 
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -35,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    SQLiteHelper sqliteDB;
+    SQLiteDatabase sqliteDB;
+
     private ViewPager mViewPager;
 
     @Override
@@ -61,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
 
 //        sqliteDB = new SQLiteHelper(this);
 
+        sqliteDB = new SQLiteHelper(this).getWritableDatabase();
+
 //      FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //      fab.setOnClickListener(new View.OnClickListener() {
 //          @Override
@@ -71,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
 //      });
       
     }
+
 
 
     @Override

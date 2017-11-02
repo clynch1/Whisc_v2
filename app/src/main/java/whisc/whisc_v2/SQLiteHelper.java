@@ -2,6 +2,7 @@ package whisc.whisc_v2;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -39,6 +40,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
+
 
     public boolean insertData(String name, String description, String prep_time, String cook_time, String serving_size, String directions) {
         SQLiteDatabase db = this.getWritableDatabase();
