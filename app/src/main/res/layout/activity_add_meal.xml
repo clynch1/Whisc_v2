@@ -60,7 +60,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/addMealToolbar"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/button"
+        app:layout_constraintRight_toLeftOf="@+id/add_meal_btn"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         tools:layout_constraintBottom_creator="1"
@@ -70,7 +70,7 @@
         tools:text="@string/meal_name" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/add_meal_btn"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:text="OK"

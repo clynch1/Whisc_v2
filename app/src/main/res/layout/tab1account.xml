@@ -71,12 +71,30 @@
         android:layout_below="@+id/textView5"
         android:text="clynch" />
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+    <TextView
+        android:id="@+id/numberOfMeals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/accountSettingsButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="47dp"
+        android:text= ""  />
+
+    <Button
+        android:id="@+id/number_rows_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/numberOfMeals"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:text="Number Of Rows" />
+
+    <!--<ListView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true" />-->
 
     <!--<android.support.design.widget.FloatingActionButton-->
         <!--android:id="@+id/addMealButton"-->
