@@ -11,57 +11,116 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.SyncStateContract.Columns;
 import android.util.Log;
 
+
+
 public class SQLiteHelper extends SQLiteOpenHelper {
-    public static final int database_version = 1;
-    public String CREATE_T1_QUERY = "CREATE TABLE "+TableInfo.TABLE_1_NAME+"("+ TableInfo.MEAL_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"
-                                                                            +TableInfo.MEAL_NAME+" TEXT,"
-                                                                            +TableInfo.MEAL_DESCRIPTION+" TEXT,"
-                                                                            +TableInfo.PREP_TIME+" TEXT,"
-                                                                            +TableInfo.COOK_TIME+" TEXT,"
-                                                                            +TableInfo.SERVING_SIZE+" TEXT"
-                                                                            +TableInfo.MEAL_DIRECTIONS
-                                                                            +" TEXT);";
+
+    private static final String TAG = "DatabaseHelper";
+
+    private static final String TABLE_NAME = "meal_table";
+    private static final String COL1 = "ID";
+    private static final String COL2 = "meal_name";
+
 
     public SQLiteHelper(Context context) {
-        super(context, TableInfo.DATABASE_NAME, null, database_version);
-        Log.d("Database Operations", "Meal Database Created");
+        super(context, TABLE_NAME, null, 1);
     }//end of SQLiteHelper
 
     @Override
-    public void onCreate(SQLiteDatabase sdb) {
-        sdb.execSQL(CREATE_T1_QUERY);
-        Log.d("Database operations", "Table created");
+    public void onCreate(SQLiteDatabase db) {
+        String createTable = "CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COL2 +" TEXT)";
+        db.execSQL(createTable);
     }//end of onCreate
 
     @Override
-    public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
-        // TODO Auto-generated method stub
+    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+        db.execSQL("DROP IF TABLE EXISTS " + TABLE_NAME);
+        onCreate(db);
     }//end of onUpgrade
 
-    public void putInformation(SQLiteHelper dop, String meal_name, String meal_description, String prep_time,
-                               String cook_time, String serving_size, String meal_directions) {
-        SQLiteDatabase SQ = dop.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(TableInfo.MEAL_NAME, meal_name);
-        cv.put(TableInfo.MEAL_DESCRIPTION, meal_description);
-        cv.put(TableInfo.PREP_TIME, prep_time);
-        cv.put(TableInfo.COOK_TIME, cook_time);
-        cv.put(TableInfo.SERVING_SIZE, serving_size);
-        cv.put(TableInfo.MEAL_DIRECTIONS, meal_directions);
+    public boolean addData(String item) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL2, item);
 
-        long k = SQ.insert(TableInfo.TABLE_1_NAME, null, cv);
-        Log.d("Database operations", "One Row Inserted In Meal");
+        Log.d(TAG, "addData: Adding " + item + " to " + TABLE_NAME);
 
-    }//end of putInformation
+        long result = db.insert(TABLE_NAME, null, contentValues);
 
-    public Cursor getInformation(SQLiteHelper dop) {
-        SQLiteDatabase SQ = dop.getReadableDatabase();
-        String[] t1_col = {TableInfo.MEAL_ID, TableInfo.MEAL_NAME, TableInfo.MEAL_DESCRIPTION,
-                            TableInfo.PREP_TIME, TableInfo.COOK_TIME, TableInfo.SERVING_SIZE,
-                            TableInfo.MEAL_DIRECTIONS};
-        Cursor T1_CR = SQ.query(TableInfo.TABLE_1_NAME,t1_col, null, null, null, null, null);
-        return T1_CR;
-    }//end of getInformation
+        //if date as inserted incorrectly it will return -1
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }//end of addData
+
+    /**
+     * Returns all the data from database
+     * @return
+     */
+    public Cursor getData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME;
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }//end of getData
+
+    /**
+     * Returns only the ID that matches the name passed in
+     * @param name
+     * @return
+     */
+    public Cursor getItemID(String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT " + COL1 + " FROM " + TABLE_NAME +
+                " WHERE " + COL2 + " = '" + name + "'";
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }//end of getItemID
+
+    /**
+     * Updates the name field
+     * @param newName
+     * @param id
+     * @param oldName
+     */
+    public void updateName(String newName, int id, String oldName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "UPDATE " + TABLE_NAME + " SET " + COL2 +
+                " = '" + newName + "' WHERE " + COL1 + " = '" + id + "'" +
+                " AND " + COL2 + " = '" + oldName + "'";
+        Log.d(TAG, "updateName: query: " + query);
+        Log.d(TAG, "updateName: Setting name to " + newName);
+        db.execSQL(query);
+    }//end of updateNames
+
+    /**
+     * Delete from database
+     * @param id
+     * @param name
+     */
+    public void deleteName(int id, String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "DELETE FROM " + TABLE_NAME + " WHERE "
+                + COL1 + " = '" + id + "'" +
+                " AND " + COL2 + " = '" + name + "'";
+        Log.d(TAG, "deleteName: query: " + query);
+        Log.d(TAG, "deleteName: Deleting " + name + " from database.");
+        db.execSQL(query);
+    }//end of deleteName
+
+}//end of main
+
+
+
+
+
+//**************************************THIS IS OLD*************************************************
+
+
+
 
 //    public Cursor getUserPass(SQLiteHelper DOP, String user) {
 //        SQLiteDatabase SQ = DOP.getReadableDatabase();
@@ -95,7 +154,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 //
 //    }
 
-}//end of mainMethod
+//}//end of mainMethod
 
 
 

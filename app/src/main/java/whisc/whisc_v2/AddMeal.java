@@ -1,6 +1,7 @@
 package whisc.whisc_v2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,9 @@ public class AddMeal extends AppCompatActivity {
     String meal_name, meal_description, prep_time, cook_time, serving_size, meal_directions;
     Button btnAddData;
     Context ctx = this;
+    SQLiteHelper mSQLiteHelper;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,28 +31,70 @@ public class AddMeal extends AppCompatActivity {
         editDirections = (EditText) findViewById(R.id.addDirections);
         btnAddData = (Button) findViewById(R.id.add_meal_btn);
 
+        mSQLiteHelper = new SQLiteHelper(this);
+
 
 
         btnAddData.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                meal_name = editName.toString();
-                meal_description = editDescription.toString();
-                prep_time = editPrep_time.toString();
-                cook_time = editCook_time.toString();
-                serving_size = editServing_size.toString();
-                meal_directions = editDirections.toString();
+                String newEntry = editName.getText().toString();
+                if (editName.length() != 0) {
+                    AddData(newEntry);
+                    editName.setText("");
+                    Intent intent = new Intent(AddMeal.this, MainActivity.class);
+                    startActivity(intent);
+//                    finish();
+                } else {
+                    toastMessage("You must put something in the text field!");
+                }
 
-                SQLiteHelper DB = new SQLiteHelper(ctx);
-                DB.putInformation(DB, meal_name, meal_description, prep_time, cook_time,
-                        serving_size, meal_directions);
 
-                Toast.makeText(getBaseContext(), "Meal Added", Toast.LENGTH_LONG).show();
-                finish();
+
+
+// **************************OLD********************************************************************
+//
+//                meal_name = editName.toString();
+//                meal_description = editDescription.toString();
+//                prep_time = editPrep_time.toString();
+//                cook_time = editCook_time.toString();
+//                serving_size = editServing_size.toString();
+//                meal_directions = editDirections.toString();
+//
+//                SQLiteHelper DB = new SQLiteHelper(ctx);
+//                DB.putInformation(DB, meal_name, meal_description, prep_time, cook_time,
+//                        serving_size, meal_directions);
+//
+//                Toast.makeText(getBaseContext(), "Meal Added", Toast.LENGTH_LONG).show();
+//                finish();
             }
         });
-    }
+    }//end of onCreate
+
+    public void AddData(String newEntry) {
+        boolean insertData = mSQLiteHelper.addData(newEntry);
+
+        if (insertData) {
+            toastMessage("Data Successfully Inserted!");
+        } else {
+            toastMessage("Something went wrong");
+        }
+    }//end of AddData
+
+    private void toastMessage(String message){
+        Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
+    }//end of toastMessage
+}//end of main
+
+
+
+
+
+
+
+
+
 //    public void AddData (){
 //        btnAddData.setOnClickListener(new View.OnClickListener() {
 //
@@ -94,4 +140,4 @@ public class AddMeal extends AppCompatActivity {
 //                }
 //        );
 //    }
-}
+
