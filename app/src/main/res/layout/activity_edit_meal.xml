@@ -38,7 +38,7 @@
         android:layout_below="@+id/toolbar3" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/editMealDescription"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:ems="10"
@@ -50,23 +50,84 @@
 
     <TextView
         android:id="@+id/textPrepTime"
-        android:layout_width="200dp"
+        android:layout_width="190dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/editText3"
+        android:layout_below="@+id/editMealDescription"
         android:text="Prep Time" />
 
     <EditText
-        android:id="@+id/editText4"
-        android:layout_width="wrap_content"
+        android:id="@+id/editPrepTime"
+        android:layout_width="190dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/textPrepTime"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name" />
+        android:text="" />
+
+
+    <TextView
+        android:id="@+id/textCookTime"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/editPrepTime"
+        android:layout_toEndOf="@+id/linearLayout"
+        android:layout_toRightOf="@+id/linearLayout"
+        android:text="Cook Time" />
+
+    <EditText
+        android:id="@+id/editCookTime"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text=""
+        android:layout_below="@+id/textCookTime"
+        android:layout_toRightOf="@+id/editPrepTime"
+        android:layout_toEndOf="@+id/editPrepTime" />
+
+    <TextView
+        android:id="@+id/textServingSize"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/editPrepTime"
+        android:text="Serving Size" />
+
+    <EditText
+        android:id="@+id/editServingSize"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text=""
+        android:layout_below="@+id/textServingSize"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/textMealDirections"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/editServingSize"
+        android:text="Meal Directions" />
+
+    <EditText
+        android:id="@+id/editMealDirections"
+        android:layout_width="400dp"
+        android:layout_height="200dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text=""
+        android:layout_below="@+id/textMealDirections"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <LinearLayout
         android:layout_centerHorizontal="true"

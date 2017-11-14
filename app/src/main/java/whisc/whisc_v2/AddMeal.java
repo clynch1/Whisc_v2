@@ -39,19 +39,51 @@ public class AddMeal extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                String newEntry = editName.getText().toString();
-                if (editName.length() != 0) {
-                    AddData(newEntry);
+                String newName = editName.getText().toString();
+                String newDescription = editDescription.getText().toString();
+                String newPrep = editPrep_time.getText().toString();
+                String newCook = editCook_time.getText().toString();
+                String newServing = editServing_size.getText().toString();
+                String newDirections = editDirections.getText().toString();
+
+                if (editName.length() != 0 && editDescription.length() != 0 && editPrep_time.length() != 0 &&
+                        editCook_time.length() != 0 && editServing_size.length() != 0 && editDirections.length() != 0) {
+
+                    AddData(newName, newDescription, newPrep, newCook, newServing, newDirections);
+
                     editName.setText("");
+                    editDescription.setText("");
+                    editPrep_time.setText("");
+                    editCook_time.setText("");
+                    editServing_size.setText("");
+                    editDirections.setText("");
+
                     Intent intent = new Intent(AddMeal.this, MainActivity.class);
                     startActivity(intent);
 //                    finish();
                 } else {
-                    toastMessage("You must put something in the text field!");
+                    toastMessage("You must put something in all fields!");
                 }
+            }
+        });
+    }//end of onCreate
 
-
-
+//******************************************BACKUP**************************************************
+//    @Override
+//    public void onClick(View v) {
+//        String newEntry = editName.getText().toString();
+//        if (editName.length() != 0) {
+//            AddData(newEntry);
+//            editName.setText("");
+//            Intent intent = new Intent(AddMeal.this, MainActivity.class);
+//            startActivity(intent);
+////                    finish();
+//        } else {
+//            toastMessage("You must put something in the text field!");
+//        }
+//    }
+//});
+//        }//end of onCreate
 
 // **************************OLD********************************************************************
 //
@@ -68,12 +100,11 @@ public class AddMeal extends AppCompatActivity {
 //
 //                Toast.makeText(getBaseContext(), "Meal Added", Toast.LENGTH_LONG).show();
 //                finish();
-            }
-        });
-    }//end of onCreate
 
-    public void AddData(String newEntry) {
-        boolean insertData = mSQLiteHelper.addData(newEntry);
+    public void AddData(String newName, String newDescription, String newPrep, String newCook,
+                        String newServing, String newDirections) {
+        boolean insertData = mSQLiteHelper.addData(newName, newDescription, newPrep, newCook, newServing,
+                                                    newDirections);
 
         if (insertData) {
             toastMessage("Data Successfully Inserted!");
@@ -81,6 +112,19 @@ public class AddMeal extends AppCompatActivity {
             toastMessage("Something went wrong");
         }
     }//end of AddData
+
+
+//************************************BACKUP********************************************************
+//    public void AddData(String newEntry) {
+//        boolean insertData = mSQLiteHelper.addData(newEntry);
+//
+//        if (insertData) {
+//            toastMessage("Data Successfully Inserted!");
+//        } else {
+//            toastMessage("Something went wrong");
+//        }
+//    }//end of AddData
+
 
     private void toastMessage(String message){
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
@@ -92,7 +136,7 @@ public class AddMeal extends AppCompatActivity {
 
 
 
-
+//**************************************OLD*********************************************************
 
 
 //    public void AddData (){

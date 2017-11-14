@@ -48,7 +48,12 @@ public class EditMeal extends AppCompatActivity {
             public void onClick(View view) {
                 String item = editable_item.getText().toString();
                 if(!item.equals("")){
-                    mSQLiteHelper.updateName(item,selectedID,selectedName);
+                    mSQLiteHelper.updateName(selectedID,item,selectedName,
+                            null, null,
+                            null, null,
+                            null, null,
+                            null, null,
+                            null, null);
                     Intent intent = new Intent(EditMeal.this, MainActivity.class);
                     startActivity(intent);
                 }else{
