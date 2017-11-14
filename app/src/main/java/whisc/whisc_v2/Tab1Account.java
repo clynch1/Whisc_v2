@@ -93,8 +93,27 @@ public class Tab1Account  extends Fragment {
                 if(itemID > -1){
                     Log.d(TAG, "onItemClick: The ID is: " + itemID);
                     Intent editScreenIntent = new Intent(getActivity(), EditMeal.class);
+
+                    Cursor dba = mSQLiteHelper.getData();
+                    dba.moveToPosition(itemID - 1);
+
+
+                    String meaName = dba.getString(1);
+                    String Description = dba.getString(2);
+                    String Prep = dba.getString(3);
+                    String Cook = dba.getString(4);
+                    String Serving = dba.getString(5);
+                    String Directions = dba.getString(6);
+
                     editScreenIntent.putExtra("id",itemID);
-                    editScreenIntent.putExtra("name",name);
+                    editScreenIntent.putExtra("name",meaName);
+                    editScreenIntent.putExtra("description",Description);
+                    editScreenIntent.putExtra("prep",Prep);
+                    editScreenIntent.putExtra("cook",Cook);
+                    editScreenIntent.putExtra("serving",Serving);
+                    editScreenIntent.putExtra("directions",Directions);
+
+
                     startActivity(editScreenIntent);
                 }
                 else{
