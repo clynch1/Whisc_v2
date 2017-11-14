@@ -17,7 +17,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     private static final String TAG = "DatabaseHelper";
 
-    private static final String TABLE_NAME = "test_table";
+    private static final String TABLE_NAME = "meal_table";
 //    private static final String TABLE_NAME = "meal_table";
     private static final String COL1 = "ID";
     private static final String COL2 = "meal_name";
@@ -38,12 +38,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 COL2 +" TEXT)";
 
         String newCreateTable = "CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COL2 +" TEXT" + COL3 +" TEXT" + COL4 +" TEXT" + COL5 +" TEXT" + COL6 +" TEXT" + COL7 +" TEXT)";
+                COL2 +" TEXT," + COL3 +" TEXT," + COL4 +" TEXT," + COL5 +" TEXT," + COL6 +" TEXT," + COL7 +" TEXT);";
 //
-//        String newCreateTable = "CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-//                COL2 +" TEXT" + COL3 +" TEXT" + COL4 +" TEXT" + COL5 +" TEXT" + COL6 +" TEXT" + COL7 +" TEXT)";
+//        String newNewCreateTable = "CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+//                "meal_name TEXT" + "meal_description TEXT" + "prep_time TEXT" + "cook_time TEXT" + "serving_size TEXT" + "meal_directions TEXT)";
 
         db.execSQL(newCreateTable);
+        Log.d(TAG, "Created Table " + TABLE_NAME);
     }//end of onCreate
 
     @Override
@@ -57,14 +58,14 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public boolean addData(String meal_name, String meal_description, String prep_time, String cook_time,
                            String serving_size, String meal_directions) {
         SQLiteDatabase db = this.getWritableDatabase();
-        onUpgrade(db,1,1);
+//        onUpgrade(db,1,1);
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL2, meal_name);
-//        contentValues.put(COL3, meal_description);
-//        contentValues.put(COL4, prep_time);
-//        contentValues.put(COL5, cook_time);
-//        contentValues.put(COL6, serving_size);
-//        contentValues.put(COL7, meal_directions);
+        contentValues.put(COL3, meal_description);
+        contentValues.put(COL4, prep_time);
+        contentValues.put(COL5, cook_time);
+        contentValues.put(COL6, serving_size);
+        contentValues.put(COL7, meal_directions);
 
         Log.d(TAG, "addData: Adding " + meal_name + " to " + TABLE_NAME);
 
