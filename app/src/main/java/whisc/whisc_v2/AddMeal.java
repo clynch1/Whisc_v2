@@ -28,8 +28,8 @@ public class AddMeal extends AppCompatActivity {
         editPrep_time = (EditText) findViewById(R.id.addPrepTime);
         editCook_time = (EditText) findViewById(R.id.addCookTime);
         editServing_size = (EditText) findViewById(R.id.addServingSize);
-        editDirections = (EditText) findViewById(R.id.addDirections);
-        btnAddData = (Button) findViewById(R.id.add_meal_btn);
+        editDirections = (EditText) findViewById(R.id.addMealDirections);
+        btnAddData = (Button) findViewById(R.id.btnADD);
 
         mSQLiteHelper = new SQLiteHelper(this);
 
