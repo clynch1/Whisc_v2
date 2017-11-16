@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.SyncStateContract.Columns;
 import android.util.Log;
 
+import java.sql.Blob;
 
 
 public class SQLiteHelper extends SQLiteOpenHelper {
@@ -25,6 +26,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     private static final String COL5 = "cook_time";
     private static final String COL6 = "serving_size";
     private static final String COL7 = "meal_directions";
+    private static final String COL8 = "meal_image";
 
     private static final String TABLE_INGREDIENTS = "ingredients_table";
     private static final String B_COL1 = "ingredients_id";
@@ -48,9 +50,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 //        String createTable = "CREATE TABLE " + TABLE_MEAL + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
 //                COL2 +" TEXT)";
 
-        String createMealTable = "CREATE TABLE " + TABLE_MEAL + " (ID INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+        String oldCreateMealTable = "CREATE TABLE " + TABLE_MEAL + " (ID INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT, " +
                 COL2 +" INTEGER NOT NULL," + COL3 +" TEXT," + COL4 +" TEXT," + COL5 +" TEXT," + COL6 +" TEXT," + COL7 +" TEXT);";
 
+        String createMealTable = "CREATE TABLE " + TABLE_MEAL + " (ID INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                COL2 +" INTEGER NOT NULL," + COL3 +" TEXT," + COL4 +" TEXT," + COL5 +" TEXT," + COL6 +" TEXT," + COL7 + " TEST," +
+                COL8 + " BLOB);";
 
         String createIngredientsTable = "CREATE TABLE " + TABLE_INGREDIENTS + " (ingredients_id INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT, " +
                 B_COL2 +" TEXT," + B_COL3 +" TEXT," + B_COL4 +" TEXT);";
@@ -86,7 +91,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     }//end of dropHolderTable
 
     public boolean addMealData(String meal_name, String meal_description, String prep_time, String cook_time,
-                               String serving_size, String meal_directions) {
+                               String serving_size, String meal_directions, byte[] meal_image) {
         SQLiteDatabase db = this.getWritableDatabase();
 //        onUpgrade(db,1,1);
         ContentValues contentValues = new ContentValues();
@@ -96,6 +101,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         contentValues.put(COL5, cook_time);
         contentValues.put(COL6, serving_size);
         contentValues.put(COL7, meal_directions);
+        contentValues.put(COL8, meal_image);
 
         Log.d(TAG, "addMealData: Adding " + meal_name + " to " + TABLE_MEAL);
 
@@ -207,6 +213,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         return data;
     }//end of getMealID
 
+    public Cursor getMealImg(String meal_id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT " + COL8 + " FROM " + TABLE_MEAL +
+                " WHERE " + COL1 + " = '" + meal_id + "'";
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }//end of getMealID
     /**
      * Updates the name field
      * @param newName
@@ -218,7 +231,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                                     String newPrepTime, String oldPrepTime,
                                     String newCookTime, String oldCookTime,
                                     String newServingSize, String oldServingSize,
-                                    String newDirections, String oldDirections){
+                                    String newDirections, String oldDirections,
+                                    byte[] newImage, byte[] oldImage){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "UPDATE " + TABLE_MEAL + " SET " + COL2 +
                 " = '" + newName + "' WHERE " + COL1 + " = '" + id + "'" +
@@ -256,12 +270,18 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         Log.d(TAG, "updateName: query: " + mealDirectionsQuery);
         Log.d(TAG, "updateName: Setting meal directions to " + newDirections);
 
+        String mealImageQuery = "UPDATE " + TABLE_MEAL + " SET " + COL8 +
+                " = '" + newImage + "' WHERE " + COL1 + " = '" + id + "'" +
+                " AND " + COL8 + " = '" + oldImage + "'";
+        Log.d(TAG, "updateName: query: Updated Image");
+
         db.execSQL(query);
         db.execSQL(descriptionQuery);
         db.execSQL(prepTimeQuery);
         db.execSQL(cookTimeQuery);
         db.execSQL(servingSizeQuery);
         db.execSQL(mealDirectionsQuery);
+        db.execSQL(mealImageQuery);
     }//end of updateMeal
 
     public void updateIngredients(int id, String newAmount, String oldAmount,

@@ -1,8 +1,15 @@
 package whisc.whisc_v2;
 
+import android.Manifest;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,10 +18,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.util.ArrayList;
 
 
@@ -22,14 +34,17 @@ public class EditMeal extends AppCompatActivity {
 
     private static final String TAG = "EditDataActivity";
 
-    private Button btnSave,btnDelete, btnAddIngredients;
+    private Button btnSave,btnDelete, btnAddIngredients, btnAddImg;
     private EditText editable_name, editable_description, editable_prep, editable_cook, editable_serving, editable_directions;
+    private ImageView imageMeal;
 
     private ListView mListView;
     SQLiteHelper mSQLiteHelper;
 
     private String selectedName, selectedDescription, selectedPrep, selectedCook, selectedServing, selectedDirections, selectedMealID;
     private int selectedID;
+
+    final int REQUEST_CODE_GALLERY = 999;
 
 
     @Override
@@ -39,12 +54,14 @@ public class EditMeal extends AppCompatActivity {
         btnSave = (Button) findViewById(R.id.btnEditSave);
         btnDelete = (Button) findViewById(R.id.btnEditDel);
         btnAddIngredients = (Button) findViewById(R.id.btnEditAddIngredient);
+        btnAddImg = (Button)findViewById(R.id.btnAddImg);
         editable_name = (EditText) findViewById(R.id.editMealName);
         editable_description = (EditText) findViewById(R.id.editMealDescription);
         editable_prep = (EditText) findViewById(R.id.editPrepTime);
         editable_cook = (EditText) findViewById(R.id.editCookTime);
         editable_serving = (EditText) findViewById(R.id.editServingSize);
         editable_directions = (EditText) findViewById(R.id.editMealDirections);
+        imageMeal = (ImageView) findViewById(R.id.imageMeal);
         mSQLiteHelper = new SQLiteHelper(this);
 
 
@@ -111,12 +128,22 @@ public class EditMeal extends AppCompatActivity {
                 break;
         }//end of switch
 
-
-
         mListView = (ListView) findViewById(R.id.listIngredients);
         final String mealId = Integer.toString(selectedID);
         selectedMealID = mealId;
         populateListView(mealId);
+
+        imageMeal.setImageResource(R.mipmap.ic_camera);
+        Cursor data= mSQLiteHelper.getMealImg(selectedMealID);
+        byte[] mealImage = imageViewToByte(imageMeal);
+        while(data.moveToNext()){
+            mealImage = data.getBlob(0);
+        }
+
+        final byte[] oldMealImg = mealImage;
+
+        Bitmap bitmap = BitmapFactory.decodeByteArray(mealImage, 0, mealImage.length);
+        imageMeal.setImageBitmap(bitmap);
 
 
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -134,7 +161,9 @@ public class EditMeal extends AppCompatActivity {
                             prep, selectedPrep,
                             cook, selectedCook,
                             serving, selectedServing,
-                            directions, selectedDirections);
+                            directions, selectedDirections,
+                            imageViewToByte(imageMeal), oldMealImg);
+                    imageMeal.setImageResource(R.mipmap.ic_camera);
                     Intent intent = new Intent(EditMeal.this, MainActivity.class);
                     startActivity(intent);
                 }else{
@@ -176,6 +205,14 @@ public class EditMeal extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+        btnAddImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ActivityCompat.requestPermissions(EditMeal.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_GALLERY);
+            }
+        });
     }
 
     private void populateListView(final String mealID) {
@@ -189,8 +226,6 @@ public class EditMeal extends AppCompatActivity {
             //then add it to the ArrayList
             listData.add(data.getString(3));
         }
-        int length = listData.size();
-        toastMessage("Number of Ingredients is: " + length);
         //create the list adapter and set the adapter
         ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
         mListView.setAdapter(adapter);
@@ -247,6 +282,53 @@ public class EditMeal extends AppCompatActivity {
                 }
             }
         });
+    }
+    public static byte[] imageViewToByte(ImageView image) {
+        Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        return byteArray;
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        int i =0;
+        if(requestCode == REQUEST_CODE_GALLERY){
+//            if(grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            if(i == 0){
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, REQUEST_CODE_GALLERY);
+            }
+            else {
+                Toast.makeText(getApplicationContext(), "You don't have permission to access file location!", Toast.LENGTH_SHORT).show();
+            }
+            return;
+        }
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if(requestCode == REQUEST_CODE_GALLERY && resultCode == RESULT_OK && data != null){
+            Uri uri = data.getData();
+
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(uri);
+
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                imageMeal.setImageBitmap(bitmap);
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     /**

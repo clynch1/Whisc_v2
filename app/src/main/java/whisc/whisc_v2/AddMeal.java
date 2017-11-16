@@ -1,9 +1,17 @@
 package whisc.whisc_v2;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,20 +20,26 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class AddMeal extends AppCompatActivity {
     EditText editName, editDescription, editPrep_time, editCook_time, editServing_size, editDirections;
     String meal_name, meal_description, prep_time, cook_time, serving_size, meal_directions;
-    Button btnAddIngredient, btnAddData;
+    ImageView imageMeal;
+    Button btnAddIngredient, btnAddData, btnAddImg;
     Context ctx = this;
     private static final String TAG = "AddMeal";
     private ListView mListView;
     SQLiteHelper mSQLiteHelper;
+    final int REQUEST_CODE_GALLERY = 999;
 
 
     @Override
@@ -41,6 +55,8 @@ public class AddMeal extends AppCompatActivity {
         editDirections = (EditText) findViewById(R.id.addMealDirections);
         btnAddIngredient = (Button) findViewById(R.id.btnAddIngredient);
         btnAddData = (Button) findViewById(R.id.btnADD);
+        btnAddImg = (Button) findViewById(R.id.btnAddImg);
+        imageMeal = (ImageView) findViewById(R.id.imageMeal);
 
         Intent receivedIntent = getIntent();
             String type = receivedIntent.getStringExtra("start");
@@ -59,6 +75,13 @@ public class AddMeal extends AppCompatActivity {
         mSQLiteHelper = new SQLiteHelper(this);
         mListView = (ListView) findViewById(R.id.listIngredients);
         populateListView();
+
+        btnAddImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ActivityCompat.requestPermissions(AddMeal.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_GALLERY);
+            }
+        });
 
         btnAddIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +120,7 @@ public class AddMeal extends AppCompatActivity {
                 if (editName.length() != 0 && editDescription.length() != 0 && editPrep_time.length() != 0 &&
                         editCook_time.length() != 0 && editServing_size.length() != 0 && editDirections.length() != 0) {
 
-                    AddData(newName, newDescription, newPrep, newCook, newServing, newDirections);
+                    AddData(newName, newDescription, newPrep, newCook, newServing, newDirections, imageViewToByte(imageMeal));
                     Cursor idData = mSQLiteHelper.getMealID(newName);
                     int mealID_int = -1;
                     while(idData.moveToNext()){
@@ -112,6 +135,7 @@ public class AddMeal extends AppCompatActivity {
                     editCook_time.setText("");
                     editServing_size.setText("");
                     editDirections.setText("");
+                    imageMeal.setImageResource(R.mipmap.ic_camera);
 
                     Intent intent = new Intent(AddMeal.this, MainActivity.class);
                     startActivity(intent);
@@ -123,6 +147,54 @@ public class AddMeal extends AppCompatActivity {
         });
     }//end of onCreate
 
+
+    public static byte[] imageViewToByte(ImageView image) {
+        Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        return byteArray;
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        int i =0;
+        if(requestCode == REQUEST_CODE_GALLERY){
+//            if(grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if(i == 0){
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, REQUEST_CODE_GALLERY);
+            }
+            else {
+                Toast.makeText(getApplicationContext(), "You don't have permission to access file location!", Toast.LENGTH_SHORT).show();
+            }
+            return;
+        }
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if(requestCode == REQUEST_CODE_GALLERY && resultCode == RESULT_OK && data != null){
+            Uri uri = data.getData();
+
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(uri);
+
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                imageMeal.setImageBitmap(bitmap);
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 //******************************************BACKUP**************************************************
 //    @Override
 //    public void onClick(View v) {
@@ -157,9 +229,9 @@ public class AddMeal extends AppCompatActivity {
 //                finish();
 
     public void AddData(String newName, String newDescription, String newPrep, String newCook,
-                        String newServing, String newDirections) {
+                        String newServing, String newDirections, byte[] meal_image) {
         boolean insertData = mSQLiteHelper.addMealData(newName, newDescription, newPrep, newCook, newServing,
-                newDirections);
+                newDirections, meal_image);
 
         if (insertData) {
             toastMessage(newName + " Added!");
