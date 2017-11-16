@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 public class Tab1Account  extends Fragment {
     Context CTX = getActivity();
-    private static final String TAG = "ListDataActivity";
+    private static final String TAG = "Tab1Activity";
 
     SQLiteHelper mSQLiteHelper;
 
@@ -47,6 +47,7 @@ public class Tab1Account  extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), AddMeal.class);
+                    intent.putExtra("start","start");
                 startActivity(intent);
             }
         });
@@ -67,7 +68,7 @@ public class Tab1Account  extends Fragment {
         Log.d(TAG, "populateListView: Displaying data in the ListView.");
 
         //get the data and append to a list
-        Cursor data = mSQLiteHelper.getData();
+        Cursor data = mSQLiteHelper.getMealData();
         ArrayList<String> listData = new ArrayList<>();
         while(data.moveToNext()){
             //get the value from the database in column 1
@@ -85,7 +86,7 @@ public class Tab1Account  extends Fragment {
                 String name = adapterView.getItemAtPosition(i).toString();
                 Log.d(TAG, "onItemClick: You Clicked on " + name);
 
-                Cursor data = mSQLiteHelper.getItemID(name); //get the id associated with that name
+                Cursor data = mSQLiteHelper.getMealID(name); //get the id associated with that name
                 int itemID = -1;
                 while(data.moveToNext()){
                     itemID = data.getInt(0);
@@ -94,7 +95,7 @@ public class Tab1Account  extends Fragment {
                     Log.d(TAG, "onItemClick: The ID is: " + itemID);
                     Intent editScreenIntent = new Intent(getActivity(), EditMeal.class);
 
-                    Cursor dba = mSQLiteHelper.getData();
+                    Cursor dba = mSQLiteHelper.getMealData();
                     dba.moveToPosition(itemID - 1);
 
 
@@ -112,6 +113,7 @@ public class Tab1Account  extends Fragment {
                     editScreenIntent.putExtra("cook",Cook);
                     editScreenIntent.putExtra("serving",Serving);
                     editScreenIntent.putExtra("directions",Directions);
+                    editScreenIntent.putExtra("start","start");
 
 
                     startActivity(editScreenIntent);

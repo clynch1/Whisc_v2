@@ -17,7 +17,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     private static final String TAG = "DatabaseHelper";
 
-    private static final String TABLE_NAME = "meal_table";
+    private static final String TABLE_MEAL = "meal_table";
     private static final String COL1 = "ID";
     private static final String COL2 = "meal_name";
     private static final String COL3 = "meal_description";
@@ -26,36 +26,67 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     private static final String COL6 = "serving_size";
     private static final String COL7 = "meal_directions";
 
+    private static final String TABLE_INGREDIENTS = "ingredients_table";
+    private static final String B_COL1 = "ingredients_id";
+    private static final String B_COL2 = "meal_id";
+    private static final String B_COL3 = "ingredient_amount";
+    private static final String B_COL4 = "ingredient_type";
+
+    private static final String HOLDER_TABLE_INGREDIENTS = "holder_ingredients_table";
+    private static final String H_COL1 = "ingredients_id";
+    private static final String H_COL2 = "ingredient_amount";
+    private static final String H_COL3 = "ingredient_type";
+
+
 
     public SQLiteHelper(Context context) {
-        super(context, TABLE_NAME, null, 1);
+        super(context, TABLE_MEAL, null, 1);
     }//end of SQLiteHelper
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createTable = "CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COL2 +" TEXT)";
+//        String createTable = "CREATE TABLE " + TABLE_MEAL + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+//                COL2 +" TEXT)";
 
-        String newCreateTable = "CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COL2 +" TEXT," + COL3 +" TEXT," + COL4 +" TEXT," + COL5 +" TEXT," + COL6 +" TEXT," + COL7 +" TEXT);";
-//
-//        String newNewCreateTable = "CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-//                "meal_name TEXT" + "meal_description TEXT" + "prep_time TEXT" + "cook_time TEXT" + "serving_size TEXT" + "meal_directions TEXT)";
+        String createMealTable = "CREATE TABLE " + TABLE_MEAL + " (ID INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                COL2 +" INTEGER NOT NULL," + COL3 +" TEXT," + COL4 +" TEXT," + COL5 +" TEXT," + COL6 +" TEXT," + COL7 +" TEXT);";
 
-        db.execSQL(newCreateTable);
-        Log.d(TAG, "Created Table " + TABLE_NAME);
+
+        String createIngredientsTable = "CREATE TABLE " + TABLE_INGREDIENTS + " (ingredients_id INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                B_COL2 +" TEXT," + B_COL3 +" TEXT," + B_COL4 +" TEXT);";
+
+        db.execSQL(createMealTable);
+        Log.d(TAG, "Created Table " + TABLE_MEAL);
+
+        db.execSQL(createIngredientsTable);
+        Log.d(TAG, "Created Table " + TABLE_INGREDIENTS);
+
+        createHolderTable(db);
     }//end of onCreate
+
+    public void createHolderTable(SQLiteDatabase db){
+        String createIngredientsHolderTable = "CREATE TABLE " + HOLDER_TABLE_INGREDIENTS + " (ingredients_id INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                H_COL2 +" TEXT," + H_COL3 +" TEXT);";
+
+        db.execSQL(createIngredientsHolderTable);
+        Log.d(TAG, "Created Table " + HOLDER_TABLE_INGREDIENTS);
+    }//end of createHolderTable
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        db.execSQL("DROP IF TABLE EXISTS " + TABLE_NAME);
-//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-        Log.d(TAG, "Upgraded Table " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MEAL);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INGREDIENTS);
         onCreate(db);
     }//end of onUpgrade
 
-    public boolean addData(String meal_name, String meal_description, String prep_time, String cook_time,
-                           String serving_size, String meal_directions) {
+    public void dropHolderTable(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + HOLDER_TABLE_INGREDIENTS);
+        createHolderTable(db);
+    }//end of dropHolderTable
+
+    public boolean addMealData(String meal_name, String meal_description, String prep_time, String cook_time,
+                               String serving_size, String meal_directions) {
         SQLiteDatabase db = this.getWritableDatabase();
 //        onUpgrade(db,1,1);
         ContentValues contentValues = new ContentValues();
@@ -66,9 +97,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         contentValues.put(COL6, serving_size);
         contentValues.put(COL7, meal_directions);
 
-        Log.d(TAG, "addData: Adding " + meal_name + " to " + TABLE_NAME);
+        Log.d(TAG, "addMealData: Adding " + meal_name + " to " + TABLE_MEAL);
 
-        long result = db.insert(TABLE_NAME, null, contentValues);
+        long result = db.insert(TABLE_MEAL, null, contentValues);
 
         //if date as inserted incorrectly it will return -1
         if (result == -1) {
@@ -76,31 +107,105 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         } else {
             return true;
         }
-    }//end of addData
+    }//end of addMealData
 
+    public boolean addIngredientsData(String meal_id, String ingredient_amount, String ingredient_name) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(B_COL2, meal_id);
+        contentValues.put(B_COL3, ingredient_amount);
+        contentValues.put(B_COL4, ingredient_name);
+
+        Log.d(TAG, "addMealData: Adding " + ingredient_name + " to " + TABLE_INGREDIENTS);
+
+        long result = db.insert(TABLE_INGREDIENTS, null, contentValues);
+
+        //if date as inserted incorrectly it will return -1
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }//end of addMealData
+
+    public boolean addHolderIngredientsData(String ingredient_amount, String ingredient_name) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(H_COL2, ingredient_amount);
+        contentValues.put(H_COL3, ingredient_name);
+
+        Log.d(TAG, "addMealData: Adding " + ingredient_name + " to " + HOLDER_TABLE_INGREDIENTS);
+
+        long result = db.insert(HOLDER_TABLE_INGREDIENTS, null, contentValues);
+
+        //if date as inserted incorrectly it will return -1
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }//end of addMealData
     /**
      * Returns all the data from database
      * @return
      */
-    public Cursor getData(){
+    public Cursor getMealData(){
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_NAME;
+        String query = "SELECT * FROM " + TABLE_MEAL;
         Cursor data = db.rawQuery(query, null);
         return data;
-    }//end of getData
+    }//end of getMealData
+
+    public Cursor getIngredientData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_INGREDIENTS;
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }//end of getMealData
+
+    public Cursor getIngredientHolderData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + HOLDER_TABLE_INGREDIENTS;
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }//end of getMealData
 
     /**
      * Returns only the ID that matches the name passed in
      * @param name
      * @return
      */
-    public Cursor getItemID(String name){
+    public Cursor getMealID(String name){
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT " + COL1 + " FROM " + TABLE_NAME +
+        String query = "SELECT " + COL1 + " FROM " + TABLE_MEAL +
                 " WHERE " + COL2 + " = '" + name + "'";
         Cursor data = db.rawQuery(query, null);
         return data;
-    }//end of getItemID
+    }//end of getMealID
+
+    public Cursor getIngredientID(String mealID, String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT " + B_COL1 + " FROM " + TABLE_INGREDIENTS +
+                " WHERE " + B_COL4 + " = '" + name + "' AND " + B_COL2 + " = '" + mealID + "'";
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }//end of getMealID
+
+    public Cursor getHolderIngredientID(String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT " + H_COL1 + " FROM " + HOLDER_TABLE_INGREDIENTS +
+                " WHERE " + H_COL3 + " = '" + name + "'";
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }//end of getMealID
+
+    public Cursor getMealIngredients(String mealID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_INGREDIENTS +
+                " WHERE " + B_COL2 + " = '" + mealID + "'";
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }//end of getMealID
 
     /**
      * Updates the name field
@@ -108,47 +213,47 @@ public class SQLiteHelper extends SQLiteOpenHelper {
      * @param id
      * @param oldName
      */
-    public void updateName(int id, String newName, String oldName,
+    public void updateMeal(int id, String newName, String oldName,
                                     String newDescription, String oldDescription,
                                     String newPrepTime, String oldPrepTime,
                                     String newCookTime, String oldCookTime,
                                     String newServingSize, String oldServingSize,
                                     String newDirections, String oldDirections){
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "UPDATE " + TABLE_NAME + " SET " + COL2 +
+        String query = "UPDATE " + TABLE_MEAL + " SET " + COL2 +
                 " = '" + newName + "' WHERE " + COL1 + " = '" + id + "'" +
                 " AND " + COL2 + " = '" + oldName + "'";
         Log.d(TAG, "updateName: query: " + query);
         Log.d(TAG, "updateName: Setting name to " + newName);
 
-        String descriptionQuery = "UPDATE " + TABLE_NAME + " SET " + COL3 +
+        String descriptionQuery = "UPDATE " + TABLE_MEAL + " SET " + COL3 +
                 " = '" + newDescription + "' WHERE " + COL1 + " = '" + id + "'" +
                 " AND " + COL3 + " = '" + oldDescription + "'";
-        Log.d(TAG, "updateName: query: " + query);
+        Log.d(TAG, "updateName: query: " + descriptionQuery);
         Log.d(TAG, "updateName: Setting description to " + newDescription);
 
-        String prepTimeQuery = "UPDATE " + TABLE_NAME + " SET " + COL4 +
+        String prepTimeQuery = "UPDATE " + TABLE_MEAL + " SET " + COL4 +
                 " = '" + newPrepTime + "' WHERE " + COL1 + " = '" + id + "'" +
                 " AND " + COL4 + " = '" + oldPrepTime + "'";
-        Log.d(TAG, "updateName: query: " + descriptionQuery);
+        Log.d(TAG, "updateName: query: " + prepTimeQuery);
         Log.d(TAG, "updateName: Setting prep time to " + newPrepTime);
 
-        String cookTimeQuery = "UPDATE " + TABLE_NAME + " SET " + COL5 +
+        String cookTimeQuery = "UPDATE " + TABLE_MEAL + " SET " + COL5 +
                 " = '" + newCookTime + "' WHERE " + COL1 + " = '" + id + "'" +
                 " AND " + COL5 + " = '" + oldCookTime + "'";
-        Log.d(TAG, "updateName: query: " + query);
+        Log.d(TAG, "updateName: query: " + cookTimeQuery);
         Log.d(TAG, "updateName: Setting cook time to " + newCookTime);
 
-        String servingSizeQuery = "UPDATE " + TABLE_NAME + " SET " + COL6 +
+        String servingSizeQuery = "UPDATE " + TABLE_MEAL + " SET " + COL6 +
                 " = '" + newServingSize + "' WHERE " + COL1 + " = '" + id + "'" +
                 " AND " + COL6 + " = '" + oldServingSize + "'";
-        Log.d(TAG, "updateName: query: " + query);
+        Log.d(TAG, "updateName: query: " + servingSizeQuery);
         Log.d(TAG, "updateName: Setting serving size to " + newServingSize);
 
-        String mealDirectionsQuery = "UPDATE " + TABLE_NAME + " SET " + COL7 +
+        String mealDirectionsQuery = "UPDATE " + TABLE_MEAL + " SET " + COL7 +
                 " = '" + newDirections + "' WHERE " + COL1 + " = '" + id + "'" +
                 " AND " + COL7 + " = '" + oldDirections + "'";
-        Log.d(TAG, "updateName: query: " + query);
+        Log.d(TAG, "updateName: query: " + mealDirectionsQuery);
         Log.d(TAG, "updateName: Setting meal directions to " + newDirections);
 
         db.execSQL(query);
@@ -157,22 +262,83 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.execSQL(cookTimeQuery);
         db.execSQL(servingSizeQuery);
         db.execSQL(mealDirectionsQuery);
-    }//end of updateNames
+    }//end of updateMeal
 
+    public void updateIngredients(int id, String newAmount, String oldAmount,
+                           String newName, String oldName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String amountQuery = "UPDATE " + TABLE_INGREDIENTS + " SET " + B_COL3 +
+                " = '" + newAmount + "' WHERE " + B_COL1 + " = '" + id + "'" +
+                " AND " + B_COL3 + " = '" + oldAmount + "'";
+        Log.d(TAG, "updateName: query: " + amountQuery);
+        Log.d(TAG, "updateName: Setting amount to " + newAmount);
+
+        String nameQuery = "UPDATE " + TABLE_INGREDIENTS + " SET " + B_COL4 +
+                " = '" + newName + "' WHERE " + B_COL1 + " = '" + id + "'" +
+                " AND " + B_COL4 + " = '" + oldName + "'";
+        Log.d(TAG, "updateName: query: " + nameQuery);
+        Log.d(TAG, "updateName: Setting name to " + newName);
+
+        db.execSQL(amountQuery);
+        db.execSQL(nameQuery);
+    }//end of updateIngredients
+
+    public void updateHolderIngredients(int id, String newAmount, String oldAmount,
+                                  String newName, String oldName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String amountQuery = "UPDATE " + HOLDER_TABLE_INGREDIENTS + " SET " + H_COL2 +
+                " = '" + newAmount + "' WHERE " + H_COL1 + " = '" + id + "'" +
+                " AND " + H_COL2 + " = '" + oldAmount + "'";
+        Log.d(TAG, "updateName: query: " + amountQuery);
+        Log.d(TAG, "updateName: Setting amount to " + newAmount);
+
+        String nameQuery = "UPDATE " + HOLDER_TABLE_INGREDIENTS + " SET " + H_COL3 +
+                " = '" + newName + "' WHERE " + H_COL1 + " = '" + id + "'" +
+                " AND " + H_COL3 + " = '" + oldName + "'";
+        Log.d(TAG, "updateName: query: " + nameQuery);
+        Log.d(TAG, "updateName: Setting name to " + newName);
+
+        db.execSQL(amountQuery);
+        db.execSQL(nameQuery);
+    }//end of updateHolderIngredients
     /**
      * Delete from database
      * @param id
      * @param name
      */
-    public void deleteName(int id, String name){
+    public void deleteMeal(int id, String name){
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "DELETE FROM " + TABLE_NAME + " WHERE "
+        String deleteMealQ = "DELETE FROM " + TABLE_MEAL + " WHERE "
                 + COL1 + " = '" + id + "'" +
                 " AND " + COL2 + " = '" + name + "'";
-        Log.d(TAG, "deleteName: query: " + query);
-        Log.d(TAG, "deleteName: Deleting " + name + " from database.");
-        db.execSQL(query);
-    }//end of deleteName
+        Log.d(TAG, "deleteMeal: query: " + deleteMealQ);
+        Log.d(TAG, "deleteMeal: Deleting " + name + " from database.");
+
+        String deleteIngredientsQ = "DELETE FROM " + TABLE_INGREDIENTS + " WHERE "
+                + B_COL2 + " = '" + id + "'";
+        db.execSQL(deleteMealQ);
+        db.execSQL(deleteIngredientsQ);
+    }//end of deleteMeal
+
+    public void deleteIngredient(int id, String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String deleteIngredientQ = "DELETE FROM " + TABLE_INGREDIENTS + " WHERE "
+                + B_COL1 + " = '" + id + "'" +
+                " AND " + B_COL4 + " = '" + name + "'";
+        Log.d(TAG, "deleteMeal: query: " + deleteIngredientQ);
+        Log.d(TAG, "deleteMeal: Deleting " + name + " from database.");
+        db.execSQL(deleteIngredientQ);
+    }//end of deleteMeal
+
+    public void deleteHolderIngredient(int id, String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String deleteHolderIngredientQ = "DELETE FROM " + HOLDER_TABLE_INGREDIENTS + " WHERE "
+                + H_COL1 + " = '" + id + "'" +
+                " AND " + H_COL3 + " = '" + name + "'";
+        Log.d(TAG, "deleteMeal: query: " + deleteHolderIngredientQ);
+        Log.d(TAG, "deleteMeal: Deleting " + name + " from database.");
+        db.execSQL(deleteHolderIngredientQ);
+    }//end of deleteMeal
 
 }//end of main
 
@@ -183,12 +349,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 //        onCreate(db);
 //    }//end of onUpgrade
 //
-//    public boolean addData(String item) {
+//    public boolean addMealData(String item) {
 //        SQLiteDatabase db = this.getWritableDatabase();
 //        ContentValues contentValues = new ContentValues();
 //        contentValues.put(COL2, item);
 //
-//        Log.d(TAG, "addData: Adding " + item + " to " + TABLE_NAME);
+//        Log.d(TAG, "addMealData: Adding " + item + " to " + TABLE_NAME);
 //
 //        long result = db.insert(TABLE_NAME, null, contentValues);
 //
@@ -198,31 +364,31 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 //        } else {
 //            return true;
 //        }
-//    }//end of addData
+//    }//end of addMealData
 //
 //    /**
 //     * Returns all the data from database
 //     * @return
 //     */
-//    public Cursor getData(){
+//    public Cursor getMealData(){
 //        SQLiteDatabase db = this.getWritableDatabase();
 //        String query = "SELECT * FROM " + TABLE_NAME;
 //        Cursor data = db.rawQuery(query, null);
 //        return data;
-//    }//end of getData
+//    }//end of getMealData
 //
 //    /**
 //     * Returns only the ID that matches the name passed in
 //     * @param name
 //     * @return
 //     */
-//    public Cursor getItemID(String name){
+//    public Cursor getMealID(String name){
 //        SQLiteDatabase db = this.getWritableDatabase();
 //        String query = "SELECT " + COL1 + " FROM " + TABLE_NAME +
 //                " WHERE " + COL2 + " = '" + name + "'";
 //        Cursor data = db.rawQuery(query, null);
 //        return data;
-//    }//end of getItemID
+//    }//end of getMealID
 //
 //    /**
 //     * Updates the name field
@@ -245,15 +411,15 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 //     * @param id
 //     * @param name
 //     */
-//    public void deleteName(int id, String name){
+//    public void deleteMeal(int id, String name){
 //        SQLiteDatabase db = this.getWritableDatabase();
 //        String query = "DELETE FROM " + TABLE_NAME + " WHERE "
 //                + COL1 + " = '" + id + "'" +
 //                " AND " + COL2 + " = '" + name + "'";
-//        Log.d(TAG, "deleteName: query: " + query);
-//        Log.d(TAG, "deleteName: Deleting " + name + " from database.");
+//        Log.d(TAG, "deleteMeal: query: " + query);
+//        Log.d(TAG, "deleteMeal: Deleting " + name + " from database.");
 //        db.execSQL(query);
-//    }//end of deleteName
+//    }//end of deleteMeal
 //
 //}//end of main
 

@@ -1,9 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:id="@+id/textMealDescription"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginTop="58dp"
+                android:text="Meal Description"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <EditText
+                android:id="@+id/editMealDescription"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:ems="10"
+                android:inputType="textMultiLine"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textMealDescription" />
+
+            <TextView
+                android:id="@+id/textPrepTime"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/editMealDescription"
+                android:text="Prep Time" />
+
+            <EditText
+                android:id="@+id/editPrepTime"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textPrepTime"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="" />
+
+
+            <TextView
+                android:id="@+id/textCookTime"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:text="Cook Time"
+                android:layout_alignBaseline="@+id/textPrepTime"
+                android:layout_alignBottom="@+id/textPrepTime"
+                android:layout_toRightOf="@+id/textMealDirections"
+                android:layout_toEndOf="@+id/textMealDirections"
+                android:layout_marginLeft="83dp"
+                android:layout_marginStart="83dp" />
+
+            <EditText
+                android:id="@+id/editCookTime"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text=""
+                android:layout_below="@+id/textCookTime"
+                android:layout_toRightOf="@+id/editPrepTime"
+                android:layout_toEndOf="@+id/editPrepTime" />
+
+            <TextView
+                android:id="@+id/textServingSize"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/editPrepTime"
+                android:text="Serving Size" />
+
+            <EditText
+                android:id="@+id/editServingSize"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text=""
+                android:layout_below="@+id/textServingSize"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:id="@+id/textMealDirections"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/editServingSize"
+                android:text="Meal Directions" />
+
+            <EditText
+                android:id="@+id/editMealDirections"
+                android:layout_width="400dp"
+                android:layout_height="200dp"
+                android:ems="10"
+                android:inputType="textMultiLine"
+                android:text=""
+                android:layout_below="@+id/textMealDirections"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:id="@+id/textMealIngredients"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/btnEditAddIngredient"
+                android:layout_alignBottom="@+id/btnEditAddIngredient"
+                android:layout_alignEnd="@+id/editServingSize"
+                android:layout_alignRight="@+id/editServingSize"
+                android:layout_marginEnd="24dp"
+                android:layout_marginRight="24dp"
+                android:text="Meal Ingredients"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/btnEditAddIngredient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ADD Ingredient"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_below="@+id/editMealDirections"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <ListView
+                android:id="@id/listIngredients"
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                android:layout_below="@+id/btnEditAddIngredient"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="9dp" />
+
+        </RelativeLayout>
+    </ScrollView>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar3"
@@ -17,7 +168,7 @@
         android:layout_alignParentStart="true" />
 
     <EditText
-        android:id="@+id/editable_item"
+        android:id="@+id/editMealName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/toolbar3"
@@ -26,146 +177,205 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:textColor="@color/colorBackground"
-        android:textStyle="bold" />
-
-
-    <TextView
-        android:id="@+id/textMealDescription"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_marginTop="12dp"
-        android:text="Meal Description"
-        android:layout_below="@+id/toolbar3" />
-
-    <EditText
-        android:id="@+id/editMealDescription"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:ems="10"
-        android:inputType="textMultiLine"
         android:textStyle="bold"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/textMealDescription" />
-
-    <TextView
-        android:id="@+id/textPrepTime"
-        android:layout_width="190dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/editMealDescription"
-        android:text="Prep Time" />
-
-    <EditText
-        android:id="@+id/editPrepTime"
-        android:layout_width="190dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/textPrepTime"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="" />
-
-
-    <TextView
-        android:id="@+id/textCookTime"
-        android:layout_width="190dp"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/editPrepTime"
-        android:layout_toEndOf="@+id/linearLayout"
-        android:layout_toRightOf="@+id/linearLayout"
-        android:text="Cook Time" />
-
-    <EditText
-        android:id="@+id/editCookTime"
-        android:layout_width="190dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text=""
-        android:layout_below="@+id/textCookTime"
-        android:layout_toRightOf="@+id/editPrepTime"
-        android:layout_toEndOf="@+id/editPrepTime" />
-
-    <TextView
-        android:id="@+id/textServingSize"
-        android:layout_width="190dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/editPrepTime"
-        android:text="Serving Size" />
-
-    <EditText
-        android:id="@+id/editServingSize"
-        android:layout_width="190dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text=""
-        android:layout_below="@+id/textServingSize"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:id="@+id/textMealDirections"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/editServingSize"
-        android:text="Meal Directions" />
-
-    <EditText
-        android:id="@+id/editMealDirections"
-        android:layout_width="400dp"
-        android:layout_height="200dp"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        android:text=""
-        android:layout_below="@+id/textMealDirections"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <LinearLayout
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:weightSum="100"
-        android:layout_below="@+id/editable_item"
-        android:id="@+id/linearLayout"
-        android:orientation="vertical">
-
-    </LinearLayout>
+        android:hint="Meal Name"
+        android:textColorHint="@color/colorBackground"
+        android:layout_toStartOf="@+id/btnEditDel"
+        android:layout_toLeftOf="@+id/btnEditDel" />
 
     <Button
-        android:id="@+id/btnDelete"
-        android:layout_width="wrap_content"
+        android:id="@+id/btnEditSave"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:text="DELETE"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/linearLayout"
-        android:layout_toStartOf="@+id/linearLayout"
-        android:layout_marginRight="15dp"
-        android:layout_marginEnd="15dp" />
+        android:text="Save"
+        android:layout_alignBottom="@+id/toolbar3"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <Button
-        android:id="@+id/btnSave"
-        android:layout_width="wrap_content"
+        android:id="@+id/btnEditDel"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:text="SAVE"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/linearLayout"
-        android:layout_toEndOf="@+id/linearLayout"
-        android:layout_marginLeft="14dp"
-        android:layout_marginStart="14dp" />
-
-
+        android:text="Del"
+        android:layout_alignBottom="@+id/toolbar3"
+        android:layout_toLeftOf="@+id/btnEditSave" />
 
 
 </RelativeLayout>
+
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:orientation="vertical"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+    <!---->
+    <!--<ScrollView-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:fillViewport="true">-->
+
+        <!--<RelativeLayout-->
+            <!--android:orientation="vertical"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/textMealDescription"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:text="Meal Description"-->
+                <!--android:layout_marginTop="9dp"-->
+                <!--android:layout_above="@+id/editMealDescription"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_alignParentStart="true" />-->
+            <!---->
+            <!--<EditText-->
+                <!--android:id="@+id/editMealDescription"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="100dp"-->
+                <!--android:ems="10"-->
+                <!--android:inputType="textMultiLine"-->
+                <!--android:layout_above="@+id/textPrepTime"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_alignParentStart="true" />-->
+        <!---->
+            <!--<TextView-->
+                <!--android:id="@+id/textPrepTime"-->
+                <!--android:layout_width="190dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Prep Time"-->
+                <!--android:layout_alignBaseline="@+id/textCookTime"-->
+                <!--android:layout_alignBottom="@+id/textCookTime"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_alignParentStart="true" />-->
+        <!---->
+            <!--<EditText-->
+                <!--android:id="@+id/editPrepTime"-->
+                <!--android:layout_width="190dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:ems="10"-->
+                <!--android:inputType="textPersonName"-->
+                <!--android:text=""-->
+                <!--android:layout_above="@+id/textServingSize"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_alignParentStart="true" />-->
+        <!---->
+        <!---->
+            <!--<TextView-->
+                <!--android:id="@+id/textCookTime"-->
+                <!--android:layout_width="190dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Cook Time"-->
+                <!--android:layout_above="@+id/editPrepTime"-->
+                <!--android:layout_toRightOf="@+id/textPrepTime"-->
+                <!--android:layout_toEndOf="@+id/textPrepTime" />-->
+        <!---->
+            <!--<EditText-->
+                <!--android:id="@+id/editCookTime"-->
+                <!--android:layout_width="190dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:ems="10"-->
+                <!--android:inputType="textPersonName"-->
+                <!--android:text=""-->
+                <!--android:layout_below="@+id/textCookTime"-->
+                <!--android:layout_toRightOf="@+id/editPrepTime"-->
+                <!--android:layout_toEndOf="@+id/editPrepTime" />-->
+        <!---->
+            <!--<TextView-->
+                <!--android:id="@+id/textServingSize"-->
+                <!--android:layout_width="190dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Serving Size"-->
+                <!--android:layout_above="@+id/editServingSize"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_alignParentStart="true" />-->
+        <!---->
+            <!--<EditText-->
+                <!--android:id="@+id/editServingSize"-->
+                <!--android:layout_width="190dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:ems="10"-->
+                <!--android:inputType="textPersonName"-->
+                <!--android:text=""-->
+                <!--android:layout_above="@+id/textMealDirections"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_alignParentStart="true" />-->
+        <!---->
+            <!--<TextView-->
+                <!--android:id="@+id/textMealDirections"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Meal Directions"-->
+                <!--android:layout_above="@+id/editMealDirections"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_alignParentStart="true" />-->
+        <!---->
+            <!--<EditText-->
+                <!--android:id="@+id/editMealDirections"-->
+                <!--android:layout_width="400dp"-->
+                <!--android:layout_height="200dp"-->
+                <!--android:ems="10"-->
+                <!--android:inputType="textMultiLine"-->
+                <!--android:text=""-->
+                <!--android:layout_above="@+id/btnDelete"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_alignParentStart="true" />-->
+            <!---->
+            <!--<ListView-->
+                <!--android:id="@+id/listEditIngredients"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="450dp"-->
+                <!--android:layout_below="@+id/editMealDirections"/>-->
+
+        <!---->
+            <!--<Button-->
+                <!--android:id="@+id/btnDelete"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="DELETE"-->
+                <!--android:layout_marginRight="19dp"-->
+                <!--android:layout_marginEnd="19dp"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_alignRight="@+id/editServingSize"-->
+                <!--android:layout_alignEnd="@+id/editServingSize" />-->
+        <!---->
+            <!--<Button-->
+                <!--android:id="@+id/btnSave"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="SAVE"-->
+                <!--android:layout_marginLeft="13dp"-->
+                <!--android:layout_marginStart="13dp"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_toRightOf="@+id/editServingSize"-->
+                <!--android:layout_toEndOf="@+id/editServingSize" />-->
+        <!--</RelativeLayout>-->
+    <!--</ScrollView>-->
+    <!---->
+    <!--<android.support.v7.widget.Toolbar-->
+        <!--android:id="@+id/toolbar3"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="?attr/colorPrimary"-->
+        <!--android:minHeight="?attr/actionBarSize"-->
+        <!--android:theme="?attr/actionBarTheme"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true" />-->
+
+    <!--<EditText-->
+        <!--android:id="@+id/editable_item"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:ems="10"-->
+        <!--android:inputType="textPersonName"-->
+        <!--android:textColor="@color/colorBackground"-->
+        <!--android:textStyle="bold"-->
+        <!--android:layout_alignBottom="@+id/toolbar3"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true" />-->
+    <!---->
+<!--</RelativeLayout>-->
 
 
 

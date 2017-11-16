@@ -15,39 +15,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/colorPrimary"
-                android:minHeight="?attr/actionBarSize"
-                android:theme="?attr/actionBarTheme"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <EditText
-                android:id="@+id/addMealName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/toolbar3"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:textColor="@color/colorBackground"
-                android:textStyle="bold"
-                android:hint="Meal Name"
-                android:textColorHint="@color/colorBackground"/>
-
 
             <TextView
                 android:id="@+id/textMealDescription"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="58dp"
                 android:text="Meal Description"
-                android:layout_below="@+id/toolbar3" />
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
             <EditText
                 android:id="@+id/addMealDescription"
@@ -143,26 +120,77 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
 
-            <!--<LinearLayout-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:weightSum="100"-->
-                <!--android:layout_below="@+id/editable_item"-->
-                <!--android:id="@+id/linearLayout"-->
-                <!--android:orientation="vertical">-->
+            <TextView
+                android:id="@+id/textMealIngredients"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/btnAddIngredient"
+                android:layout_alignBottom="@+id/btnAddIngredient"
+                android:layout_alignEnd="@+id/addServingSize"
+                android:layout_alignRight="@+id/addServingSize"
+                android:layout_marginEnd="24dp"
+                android:layout_marginRight="24dp"
+                android:text="Meal Ingredients"
+                android:textSize="18sp" />
 
-            <!--</LinearLayout>-->
+            <Button
+                android:id="@+id/btnAddIngredient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ADD Ingredient"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_below="@+id/addMealDirections"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <ListView
+                android:id="@id/listIngredients"
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                android:layout_below="@+id/btnAddIngredient"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="9dp" />
+
         </RelativeLayout>
     </ScrollView>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:id="@+id/addMealName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/toolbar3"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textColor="@color/colorBackground"
+        android:textStyle="bold"
+        android:hint="Meal Name"
+        android:textColorHint="@color/colorBackground"
+        android:layout_toLeftOf="@+id/btnADD"
+        android:layout_toStartOf="@+id/btnADD" />
 
     <Button
         android:id="@+id/btnADD"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ADD MEAL"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignBottom="@+id/toolbar3"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>

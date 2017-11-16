@@ -33,7 +33,9 @@
         <!-- <activity android:name=".CreateAccount"></activity> -->
         <activity android:name=".ViewMeal" />
         <activity android:name=".AddMeal" />
-        <activity android:name=".EditMeal"></activity>
+        <activity android:name=".EditMeal" />
+        <activity android:name=".AddIngredient" />
+        <activity android:name=".EditIngredient"></activity>
     </application>
 
 </manifest>
