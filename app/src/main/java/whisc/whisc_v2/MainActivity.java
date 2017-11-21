@@ -1,5 +1,6 @@
 package whisc.whisc_v2;
 
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.TabLayout;
@@ -18,11 +19,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-  
+
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    SQLiteHelper mSQLiteHelper;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -65,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
 //        sqliteDB = new SQLiteHelper(this);
 
         sqliteDB = new SQLiteHelper(this).getWritableDatabase();
+//        mSQLiteHelper = new SQLiteHelper(this).getWritableDatabase();
+
 
 //      FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //      fab.setOnClickListener(new View.OnClickListener() {
@@ -100,9 +106,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    
-  
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to

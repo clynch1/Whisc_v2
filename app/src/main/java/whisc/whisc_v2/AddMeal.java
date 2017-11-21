@@ -16,13 +16,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
@@ -264,8 +267,10 @@ public class AddMeal extends AppCompatActivity {
             listData.add(data.getString(2));
         }
         //create the list adapter and set the adapter
-        ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
-        mListView.setAdapter(adapter);
+//        ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
+//        mListView.setAdapter(adapter);
+        CustomAdapter customAdapter = new CustomAdapter();
+        mListView.setAdapter(customAdapter);
 
         //set an onItemClickListener to the ListView
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -319,6 +324,45 @@ public class AddMeal extends AppCompatActivity {
             }
         });
     }
+
+    class CustomAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            Cursor data = mSQLiteHelper.getIngredientHolderData();
+            return data.getCount();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            view = getLayoutInflater().inflate(R.layout.ingredient_layout, null);
+
+            TextView amount = (TextView) view.findViewById(R.id.ingredient_layout_amount);
+            TextView ingredient = (TextView) view.findViewById(R.id.ingredient_layout_ingredient);
+
+            String newAmount;
+            String newIngredient;
+            Cursor data = mSQLiteHelper.getIngredientHolderData();
+            data.moveToPosition(i);
+            newAmount = data.getString(1);
+            newIngredient = data.getString(2);
+
+            amount.setText(newAmount);
+            ingredient.setText(newIngredient);
+
+            return view;
+        }
+    }//end of CustomAdapter
 
 
 //************************************BACKUP********************************************************

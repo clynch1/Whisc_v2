@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -56,6 +57,7 @@ public class Tab1Account  extends Fragment {
 //        setContentView(R.layout.list_data_layout);
 
         mListView = (ListView) rootView.findViewById(R.id.listView);
+//        mListView = (ListView) rootView.findViewById(R.layout.meal_layout);
         mSQLiteHelper = new SQLiteHelper(getActivity());
 
         populateListView();
@@ -124,6 +126,9 @@ public class Tab1Account  extends Fragment {
             }
         });
     }
+
+
+
     private void toastMessage(String message){
         Toast.makeText(getActivity(),message, Toast.LENGTH_SHORT).show();
     }//end of toastMessage
