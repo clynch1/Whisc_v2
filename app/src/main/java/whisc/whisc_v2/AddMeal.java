@@ -334,13 +334,18 @@ public class AddMeal extends AppCompatActivity {
         }
 
         @Override
-        public Object getItem(int i) {
-            return null;
+        public String getItem(int i) {
+            Cursor data = mSQLiteHelper.getIngredientHolderData();
+            data.moveToPosition(i);
+            String name = data.getString(2);
+            Log.d(TAG, "addMealData: get item " + name);
+            return name;
         }
 
         @Override
         public long getItemId(int i) {
-            return 0;
+            Log.d(TAG, "addMealData: get item id " + i);
+            return i;
         }
 
         @Override

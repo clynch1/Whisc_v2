@@ -346,13 +346,17 @@ public class EditMeal extends AppCompatActivity {
         }
 
         @Override
-        public Object getItem(int i) {
-            return null;
+        public String getItem(int i) {
+            Cursor data = mSQLiteHelper.getMealIngredients(selectedMealID);
+            data.moveToPosition(i);
+            String name = data.getString(3);
+            Log.d(TAG, "addMealData: get item " + name);
+            return name;
         }
 
         @Override
         public long getItemId(int i) {
-            return 0;
+            return i;
         }
 
         @Override
