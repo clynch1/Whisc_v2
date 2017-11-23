@@ -1,58 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="whisc.whisc_v2.ViewMeal"
-    tools:layout_editor_absoluteY="25dp"
-    tools:layout_editor_absoluteX="0dp">
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/viewImageMeal"
+                android:layout_width="450dp"
+                android:layout_height="200dp"
+                app:srcCompat="@mipmap/meal182"
+                android:layout_marginTop="68dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+
+            <TextView
+                android:id="@+id/textMealDescription"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:text="Meal Description"
+                android:layout_below="@+id/viewImageMeal"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/viewMealDescription"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:ems="10"
+                android:inputType="textMultiLine"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:text="Meal Description"
+                android:layout_below="@+id/textMealDescription" />
+
+            <TextView
+                android:id="@+id/textPrepTime"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/viewMealDescription"
+                android:text="Prep Time"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/viewPrepTime"
+                android:layout_width="190dp"
+                android:layout_height="40dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textPrepTime"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Prep Time" />
+
+
+            <TextView
+                android:id="@+id/textCookTime"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:text="Cook Time"
+                android:layout_alignBaseline="@+id/textPrepTime"
+                android:layout_alignBottom="@+id/textPrepTime"
+                android:layout_toRightOf="@+id/textMealDirections"
+                android:layout_toEndOf="@+id/textMealDirections"
+                android:layout_marginLeft="83dp"
+                android:layout_marginStart="83dp"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/viewCookTime"
+                android:layout_width="190dp"
+                android:layout_height="40dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Cook Time"
+                android:layout_below="@+id/textCookTime"
+                android:layout_toRightOf="@+id/viewPrepTime"
+                android:layout_toEndOf="@+id/viewPrepTime" />
+
+            <TextView
+                android:id="@+id/textServingSize"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/viewPrepTime"
+                android:text="Serving Size"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/viewServingSize"
+                android:layout_width="190dp"
+                android:layout_height="40dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Serving Size"
+                android:layout_below="@+id/textServingSize"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:id="@+id/textMealDirections"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/viewServingSize"
+                android:text="Meal Directions"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/viewMealDirections"
+                android:layout_width="400dp"
+                android:layout_height="200dp"
+                android:ems="10"
+                android:inputType="textMultiLine"
+                android:text="Meal Directions"
+                android:layout_below="@+id/textMealDirections"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:id="@+id/textMealIngredients"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/viewMealDirections"
+                android:layout_marginEnd="24dp"
+                android:layout_marginRight="24dp"
+                android:text="Meal Ingredients"
+                android:textSize="18sp" />
+
+
+
+            <ListView
+                android:id="@id/listIngredients"
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                android:layout_below="@+id/textMealIngredients"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="9dp" />
+
+        </RelativeLayout>
+    </ScrollView>
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar2"
-        android:layout_width="389dp"
-        android:layout_height="56dp"
+        android:id="@+id/toolbar3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        tools:layout_editor_absoluteX="-2dp"
-        tools:layout_editor_absoluteY="-3dp" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:text="Chicken with forty cloves of garlic"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteY="287dp"
-        tools:layout_editor_absoluteX="5dp" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@mipmap/meal182"
-        android:layout_alignBottom="@+id/textView8"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        tools:layout_editor_absoluteY="46dp"
-        tools:layout_editor_absoluteX="0dp" />
+        android:layout_alignParentStart="true" />
 
     <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        android:id="@+id/viewMealName"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@+id/toolbar3"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView8"
-        android:text="This dish isn't usually cooked with shallots but we've added a few to make the sauce extra delicious. Leave them out if you prefer. To make a richer sauce from the cooking liquor you can stir in freshly chopped tarragon and some double cream. Not traditional maybe but very delicious."
-        tools:layout_editor_absoluteY="327dp"
-        tools:layout_editor_absoluteX="0dp" />
+        android:layout_toLeftOf="@+id/btnViewDel"
+        android:layout_toStartOf="@+id/btnViewDel"
+        android:ems="10"
+        android:textColor="@color/colorBackground"
+        android:textColorHint="@color/colorBackground"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="Meal Name"/>
 
-</android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/btnDownloadMeal"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:text="Down"
+        android:layout_alignBottom="@+id/toolbar3"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:id="@+id/btnViewDel"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="Del"
+        android:layout_alignBottom="@+id/toolbar3"
+        android:layout_toLeftOf="@+id/btnDownloadMeal" />
+
+
+</RelativeLayout>

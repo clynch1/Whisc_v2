@@ -39,6 +39,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     private static final String H_COL2 = "ingredient_amount";
     private static final String H_COL3 = "ingredient_type";
 
+    private static final String MATCHES_TABLE = "matches_table";
+    private static final String M_COL1 = "match_id";
+    private static final String M_COL2 = "meal_id";
 
 
     public SQLiteHelper(Context context) {
@@ -49,9 +52,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 //        String createTable = "CREATE TABLE " + TABLE_MEAL + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
 //                COL2 +" TEXT)";
-
-        String oldCreateMealTable = "CREATE TABLE " + TABLE_MEAL + " (ID INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT, " +
-                COL2 +" INTEGER NOT NULL," + COL3 +" TEXT," + COL4 +" TEXT," + COL5 +" TEXT," + COL6 +" TEXT," + COL7 +" TEXT);";
+//
+//        String oldCreateMealTable = "CREATE TABLE " + TABLE_MEAL + " (ID INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+//                COL2 +" INTEGER NOT NULL," + COL3 +" TEXT," + COL4 +" TEXT," + COL5 +" TEXT," + COL6 +" TEXT," + COL7 +" TEXT);";
 
         String createMealTable = "CREATE TABLE " + TABLE_MEAL + " (ID INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT, " +
                 COL2 +" INTEGER NOT NULL," + COL3 +" TEXT," + COL4 +" TEXT," + COL5 +" TEXT," + COL6 +" TEXT," + COL7 + " TEST," +
@@ -60,11 +63,17 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         String createIngredientsTable = "CREATE TABLE " + TABLE_INGREDIENTS + " (ingredients_id INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT, " +
                 B_COL2 +" TEXT," + B_COL3 +" TEXT," + B_COL4 +" TEXT);";
 
+        String createMatchesTable = "CREATE TABLE " + MATCHES_TABLE + " (ingredients_id INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                M_COL2 +" TEXT);";
+
         db.execSQL(createMealTable);
         Log.d(TAG, "Created Table " + TABLE_MEAL);
 
         db.execSQL(createIngredientsTable);
         Log.d(TAG, "Created Table " + TABLE_INGREDIENTS);
+
+        db.execSQL(createMatchesTable);
+        Log.d(TAG, "Created Table " + MATCHES_TABLE);
 
         createHolderTable(db);
     }//end of onCreate
@@ -81,6 +90,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MEAL);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INGREDIENTS);
+        db.execSQL("DROP TABLE IF EXISTS " + MATCHES_TABLE);
         onCreate(db);
     }//end of onUpgrade
 
@@ -151,6 +161,24 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             return true;
         }
     }//end of addMealData
+
+    public boolean addMatchesData(String meal_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(M_COL2, meal_id);
+
+        Log.d(TAG, "addMealData: Adding " + meal_id + " to " + MATCHES_TABLE);
+
+        long result = db.insert(MATCHES_TABLE, null, contentValues);
+
+        //if date as inserted incorrectly it will return -1
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }//end of addMealData
+
     /**
      * Returns all the data from database
      * @return
@@ -172,6 +200,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public Cursor getIngredientHolderData(){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + HOLDER_TABLE_INGREDIENTS;
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }//end of getMealData
+
+    public Cursor getMatchesData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + MATCHES_TABLE;
         Cursor data = db.rawQuery(query, null);
         return data;
     }//end of getMealData

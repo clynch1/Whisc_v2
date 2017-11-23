@@ -136,13 +136,9 @@ public class EditMeal extends AppCompatActivity {
         selectedMealID = mealId;
         populateListView(mealId);
 
-        imageMeal.setImageResource(R.mipmap.ic_camera);
         Cursor data= mSQLiteHelper.getMealImg(selectedMealID);
-        byte[] mealImage = imageViewToByte(imageMeal);
-        while(data.moveToNext()){
-            mealImage = data.getBlob(0);
-        }
-
+        data.moveToFirst();
+        byte[] mealImage = data.getBlob(0);
         final byte[] oldMealImg = mealImage;
 
         Bitmap bitmap = BitmapFactory.decodeByteArray(mealImage, 0, mealImage.length);
@@ -222,13 +218,13 @@ public class EditMeal extends AppCompatActivity {
         Log.d(TAG, "populateListView: Displaying data in the ListView.");
 
         //get the data and append to a list
-        Cursor data = mSQLiteHelper.getMealIngredients(mealID);
-        ArrayList<String> listData = new ArrayList<>();
-        while(data.moveToNext()){
-            //get the value from the database in column 1
-            //then add it to the ArrayList
-            listData.add(data.getString(3));
-        }
+//        Cursor data = mSQLiteHelper.getMealIngredients(mealID);
+//        ArrayList<String> listData = new ArrayList<>();
+//        while(data.moveToNext()){
+//            //get the value from the database in column 1
+//            //then add it to the ArrayList
+//            listData.add(data.getString(3));
+//        }
         //create the list adapter and set the adapter
 //        ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
 //        mListView.setAdapter(adapter);
