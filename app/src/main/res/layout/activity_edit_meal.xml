@@ -29,7 +29,7 @@
                 android:id="@+id/btnAddImg"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:background="@mipmap/ic_download"
+                android:background="@mipmap/ic_upload"
                 android:layout_above="@+id/textMealDescription"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
