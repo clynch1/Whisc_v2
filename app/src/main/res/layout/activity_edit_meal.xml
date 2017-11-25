@@ -17,26 +17,22 @@
 
             <ImageView
                 android:id="@+id/imageMeal"
-                android:layout_width="150dp"
+                android:layout_width="450dp"
                 android:layout_height="150dp"
-                android:layout_alignEnd="@+id/textMealIngredients"
                 android:layout_alignParentTop="true"
-                android:layout_alignRight="@+id/textMealIngredients"
                 android:layout_marginTop="68dp"
-                android:background="@android:drawable/ic_menu_camera" />
+                android:background="@mipmap/ic_meal"
+                android:layout_toLeftOf="@+id/btnAddImg"
+                android:layout_toStartOf="@+id/btnAddImg" />
 
             <Button
                 android:id="@+id/btnAddImg"
-                android:text="Upload Image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="45dp"
-                android:layout_alignBottom="@+id/imageMeal"
-                android:layout_toRightOf="@+id/imageMeal"
-                android:layout_toEndOf="@+id/imageMeal"
-                android:layout_marginLeft="29dp"
-                android:layout_marginStart="29dp" />
-
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@mipmap/ic_download"
+                android:layout_above="@+id/textMealDescription"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
             <TextView
                 android:id="@+id/textMealDescription"
                 android:layout_width="match_parent"
@@ -155,14 +151,14 @@
 
             <Button
                 android:id="@+id/btnEditAddIngredient"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ADD Ingredient"
-                android:layout_marginRight="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_below="@+id/editMealDirections"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_below="@+id/editMealDirections"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@mipmap/ic_add" />
 
             <ListView
                 android:id="@id/listIngredients"
@@ -206,19 +202,19 @@
     <Button
         android:id="@+id/btnEditSave"
         android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:text="Save"
+        android:layout_height="70dp"
         android:layout_alignBottom="@+id/toolbar3"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:background="@mipmap/ic_save"/>
 
     <Button
         android:id="@+id/btnEditDel"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:text="Del"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_alignBottom="@+id/toolbar3"
-        android:layout_toLeftOf="@+id/btnEditSave" />
+        android:layout_toLeftOf="@+id/btnEditSave"
+        android:background="@mipmap/ic_del"/>
 
 
 </RelativeLayout>

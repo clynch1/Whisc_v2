@@ -29,7 +29,7 @@
             <TextView
                 android:id="@+id/textMealDescription"
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="wrap_content"
                 android:text="Meal Description"
                 android:layout_below="@+id/viewImageMeal"
                 android:layout_alignParentLeft="true"
@@ -39,7 +39,7 @@
             <TextView
                 android:id="@+id/viewMealDescription"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textMultiLine"
                 android:layout_alignParentLeft="true"
@@ -127,7 +127,7 @@
             <TextView
                 android:id="@+id/viewMealDirections"
                 android:layout_width="400dp"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textMultiLine"
                 android:text="Meal Directions"
@@ -189,19 +189,19 @@
     <Button
         android:id="@+id/btnDownloadMeal"
         android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:text="Down"
+        android:layout_height="70dp"
         android:layout_alignBottom="@+id/toolbar3"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:background="@mipmap/ic_download"/>
 
     <Button
         android:id="@+id/btnViewDel"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:text="Del"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_alignBottom="@+id/toolbar3"
-        android:layout_toLeftOf="@+id/btnDownloadMeal" />
+        android:layout_toLeftOf="@+id/btnDownloadMeal"
+        android:background="@mipmap/ic_del"/>
 
 
 </RelativeLayout>
