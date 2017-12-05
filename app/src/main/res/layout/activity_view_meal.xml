@@ -9,7 +9,8 @@
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:layout_margin="5dp">
 
         <RelativeLayout
             android:orientation="vertical"

@@ -43,6 +43,16 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     private static final String M_COL1 = "match_id";
     private static final String M_COL2 = "meal_id";
 
+    private static final String DISPLAYED_TABLE = "displayed_table";
+    private static final String D_COL1 = "id";
+    private static final String D_COL2 = "meal_id";
+
+    private static final String LIKED_TABLE = "liked_table";
+    private static final String L_COL1 = "id";
+    private static final String L_COL2 = "meal_id";
+
+
+
 
     public SQLiteHelper(Context context) {
         super(context, TABLE_MEAL, null, 1);
@@ -75,8 +85,26 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.execSQL(createMatchesTable);
         Log.d(TAG, "Created Table " + MATCHES_TABLE);
 
+        createDisplayedTable(db);
+        createLikedTable(db);
         createHolderTable(db);
     }//end of onCreate
+
+    public void createDisplayedTable(SQLiteDatabase db){
+        String createDispayedTable = "CREATE TABLE " + DISPLAYED_TABLE + " (id INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                D_COL2 +" INT);";
+
+        db.execSQL(createDispayedTable);
+        Log.d(TAG, "Created Table " + DISPLAYED_TABLE);
+    }//end of createHolderTable
+
+    public void createLikedTable(SQLiteDatabase db){
+        String createLikedTable = "CREATE TABLE " + LIKED_TABLE + " (id INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                L_COL2 +" INT);";
+
+        db.execSQL(createLikedTable);
+        Log.d(TAG, "Created Table " + LIKED_TABLE);
+    }//end of createHolderTable
 
     public void createHolderTable(SQLiteDatabase db){
         String createIngredientsHolderTable = "CREATE TABLE " + HOLDER_TABLE_INGREDIENTS + " (ingredients_id INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT, " +
@@ -98,6 +126,14 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DROP TABLE IF EXISTS " + HOLDER_TABLE_INGREDIENTS);
         createHolderTable(db);
+    }//end of dropHolderTable
+
+    public void dropDispayedLikedTables(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + DISPLAYED_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + LIKED_TABLE);
+        createDisplayedTable(db);
+        createLikedTable(db);
     }//end of dropHolderTable
 
     public boolean addMealData(String meal_name, String meal_description, String prep_time, String cook_time,
@@ -162,6 +198,40 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         }
     }//end of addMealData
 
+    public boolean addDisplayedData(int mealID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(D_COL2, mealID);
+
+        Log.d(TAG, "addDisplayedData: Adding " + mealID + " to " + DISPLAYED_TABLE);
+
+        long result = db.insert(DISPLAYED_TABLE, null, contentValues);
+
+        //if date as inserted incorrectly it will return -1
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }//end of addMealData
+
+    public boolean addLikedData(int mealID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(L_COL2, mealID);
+
+        Log.d(TAG, "addLikedData: Adding " + mealID + " to " + LIKED_TABLE);
+
+        long result = db.insert(LIKED_TABLE, null, contentValues);
+
+        //if date as inserted incorrectly it will return -1
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }//end of addMealData
+
     public boolean addMatchesData(String meal_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -200,6 +270,20 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public Cursor getIngredientHolderData(){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + HOLDER_TABLE_INGREDIENTS;
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }//end of getMealData
+
+    public Cursor getDisplayedData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + DISPLAYED_TABLE;
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }//end of getMealData
+
+    public Cursor getLikedData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + LIKED_TABLE;
         Cursor data = db.rawQuery(query, null);
         return data;
     }//end of getMealData
