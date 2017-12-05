@@ -162,7 +162,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
@@ -188,20 +188,20 @@
 
     <Button
         android:id="@+id/btnDownloadMeal"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignBottom="@+id/toolbar3"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:background="@mipmap/ic_download"/>
+        android:background="@mipmap/ic_download_o"/>
 
     <Button
         android:id="@+id/btnViewDel"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignBottom="@+id/toolbar3"
         android:layout_toLeftOf="@+id/btnDownloadMeal"
-        android:background="@mipmap/ic_del"/>
+        android:background="@mipmap/ic_del_o"/>
 
 
 </RelativeLayout>

@@ -21,7 +21,7 @@
                 android:layout_height="150dp"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="68dp"
-                android:background="@mipmap/ic_meal"
+                android:background="@mipmap/meal_holder"
                 android:layout_toLeftOf="@+id/btnAddImg"
                 android:layout_toStartOf="@+id/btnAddImg" />
 
@@ -151,8 +151,8 @@
 
             <Button
                 android:id="@+id/btnEditAddIngredient"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/editMealDirections"
@@ -175,7 +175,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
@@ -201,20 +201,20 @@
 
     <Button
         android:id="@+id/btnEditSave"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignBottom="@+id/toolbar3"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:background="@mipmap/ic_save"/>
+        android:background="@mipmap/ic_save_o"/>
 
     <Button
         android:id="@+id/btnEditDel"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignBottom="@+id/toolbar3"
         android:layout_toLeftOf="@+id/btnEditSave"
-        android:background="@mipmap/ic_del"/>
+        android:background="@mipmap/ic_del_o"/>
 
 
 </RelativeLayout>
