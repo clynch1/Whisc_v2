@@ -35,7 +35,8 @@
         <activity android:name=".AddMeal" />
         <activity android:name=".EditMeal" />
         <activity android:name=".AddIngredient" />
-        <activity android:name=".EditIngredient"></activity>
+        <activity android:name=".EditIngredient" />
+        <activity android:name=".AccountSettingsHolder"></activity>
     </application>
 
 </manifest>

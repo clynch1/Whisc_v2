@@ -308,6 +308,14 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         return data;
     }//end of getMealID
 
+    public Cursor getMealName(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT " + COL2 + " FROM " + TABLE_MEAL +
+                " WHERE " + COL1 + " = '" + id + "'";
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }//end of getMealID
+
     public Cursor getIngredientID(String mealID, String name){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT " + B_COL1 + " FROM " + TABLE_INGREDIENTS +

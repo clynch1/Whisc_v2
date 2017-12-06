@@ -50,7 +50,6 @@ public class Tab2Explore extends Fragment {
         mSQLiteHelper = new SQLiteHelper(getActivity());
 
         displayedMealIds = setDisplayedMealIds(mSQLiteHelper);
-
         likedMealIds = setLikedMealIds(mSQLiteHelper);
 
         setMeal(mSQLiteHelper);
@@ -67,7 +66,7 @@ public class Tab2Explore extends Fragment {
                 likedLength ++;
                 mSQLiteHelper.addDisplayedData(mealIdInt);
                 mSQLiteHelper.addLikedData(mealIdInt);
-                Toast.makeText(getActivity(), "You Liked " + mealName.getText(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "You Liked " + mealName.getText(), Toast.LENGTH_SHORT).show();
                 nextMeal(mSQLiteHelper);
 //                Intent intent = new Intent(getActivity(), AccountSettings.class);
 //                startActivity(intent);
@@ -80,7 +79,7 @@ public class Tab2Explore extends Fragment {
                 displayedMealIds.push(mealIdInt);
                 displayedLength ++;
                 mSQLiteHelper.addDisplayedData(mealIdInt);
-                Toast.makeText(getActivity(), "You Disliked " +  mealName.getText(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "You Disliked " +  mealName.getText(), Toast.LENGTH_SHORT).show();
                 mealName.setText("TEST");
                 nextMeal(mSQLiteHelper);
 //                Intent intent = new Intent(getActivity(), AccountSettings.class);
@@ -94,8 +93,12 @@ public class Tab2Explore extends Fragment {
     public void nextMeal(SQLiteHelper mSQLiteHelper){
         if(displayedLength == 5){
             //choose a match
-            Toast.makeText(getActivity(), "You Matched With " + mealName.getText(), Toast.LENGTH_LONG).show();
-            String macthedMealId = String.valueOf(likedMealIds.peekLast());
+            int matchedMealIdInt = likedMealIds.peekLast();
+            String macthedMealId = String.valueOf(matchedMealIdInt);
+            Cursor mealData =mSQLiteHelper.getMealData();
+            mealData.move(matchedMealIdInt);
+            String mealName = mealData.getString(1);
+            Toast.makeText(getActivity(), "You Matched With " + mealName, Toast.LENGTH_LONG).show();
             mSQLiteHelper.addMatchesData(macthedMealId);
             mSQLiteHelper.dropDispayedLikedTables();
             displayedMealIds = new LinkedList<>();
@@ -113,7 +116,10 @@ public class Tab2Explore extends Fragment {
 
         int newMealId = getRandomMealId(mSQLiteHelper);
 
-        if(newMealId > -1){
+        int validMealID = -1;
+        int matchIdFlag = -2;
+
+        if(newMealId > validMealID){
             Cursor data = mSQLiteHelper.getMealData(); //get all the meals
             int itemID = newMealId;
             data.moveToPosition(itemID);
@@ -131,12 +137,16 @@ public class Tab2Explore extends Fragment {
 
             Bitmap bitmap = BitmapFactory.decodeByteArray(mealImage, 0, mealImage.length);
             imageMeal.setImageBitmap(bitmap);
-            mealIdInt = newMealId;
+            mealIdInt = itemID;
         }//end of if
-        else if(newMealId == -2){
+        else if(newMealId == matchIdFlag){
             //match meal
-            Toast.makeText(getActivity(), "You Matched With " + mealName.getText(), Toast.LENGTH_LONG).show();
-            String macthedMealId = String.valueOf(likedMealIds.peekLast());
+            int matchedMealIdInt = likedMealIds.peekLast();
+            String macthedMealId = String.valueOf(matchedMealIdInt);
+            Cursor mealData =mSQLiteHelper.getMealData();
+            mealData.move(matchedMealIdInt + 1);
+            String mealName = mealData.getString(1);
+            Toast.makeText(getActivity(), "You Matched With " + mealName, Toast.LENGTH_LONG).show();
             mSQLiteHelper.addMatchesData(macthedMealId);
             mSQLiteHelper.dropDispayedLikedTables();
             mSQLiteHelper.dropDispayedLikedTables();
@@ -145,6 +155,8 @@ public class Tab2Explore extends Fragment {
             likedLength = 0;
             likedMealIds = new LinkedList<>();
             nextMeal(mSQLiteHelper);
+//            Intent intent = new Intent(getActivity(), MainActivity.class);
+//            startActivity(intent);
         }//end of else if
         else{
             mealName.setText("NO DATA");
@@ -163,8 +175,6 @@ public class Tab2Explore extends Fragment {
                 randomId = 0;
                 while (!foundValidId){
                     foundValidId = true;
-//                    Random rand = null;
-//                    randomId = rand.nextInt((numberOfMeals - 0) + 1) + 0;
                     randomId = 0 + (int)(Math.random() * ((numberOfMeals - 0) + 0));
                     for(int i = 0; i < displayedLength; i++) {
                         if(randomId == displayedMealIds.get(i)){

@@ -51,7 +51,7 @@ public class Tab3Matches extends Fragment {
         int dataMealIdInt = 0;
         while(matchesData.moveToNext()){
             dataMealIdInt = Integer.parseInt(matchesData.getString(1));
-            data.moveToPosition(dataMealIdInt - 1);    //the meal id is stored one off so to get the correct value must subtract 1
+            data.moveToPosition(dataMealIdInt);    //the meal id is stored one off so to get the correct value must subtract 1
             listData.add(data.getString(1));
         }//end of while
         //create the list adapter and set the adapter

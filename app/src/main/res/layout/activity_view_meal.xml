@@ -9,22 +9,23 @@
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:fillViewport="true"
-        android:layout_margin="5dp">
+        android:fillViewport="true">
 
         <RelativeLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_margin="8dp">
 
             <ImageView
                 android:id="@+id/viewImageMeal"
                 android:layout_width="450dp"
                 android:layout_height="200dp"
                 app:srcCompat="@mipmap/meal182"
-                android:layout_marginTop="68dp"
+                android:layout_marginTop="47dp"
                 android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
 
             <TextView
@@ -75,13 +76,11 @@
                 android:layout_width="190dp"
                 android:layout_height="wrap_content"
                 android:text="Cook Time"
+                android:textSize="18sp"
                 android:layout_alignBaseline="@+id/textPrepTime"
                 android:layout_alignBottom="@+id/textPrepTime"
-                android:layout_toRightOf="@+id/textMealDirections"
-                android:layout_toEndOf="@+id/textMealDirections"
-                android:layout_marginLeft="83dp"
-                android:layout_marginStart="83dp"
-                android:textSize="18sp"/>
+                android:layout_toRightOf="@+id/textPrepTime"
+                android:layout_toEndOf="@+id/textPrepTime" />
 
             <TextView
                 android:id="@+id/viewCookTime"
@@ -175,17 +174,20 @@
         android:id="@+id/viewMealName"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_alignBottom="@+id/toolbar3"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/btnViewDel"
-        android:layout_toStartOf="@+id/btnViewDel"
         android:ems="10"
         android:textColor="@color/colorBackground"
         android:textColorHint="@color/colorBackground"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:text="Meal Name"/>
+        android:text="Meal Name"
+        android:layout_alignBaseline="@+id/btnDownloadMeal"
+        android:layout_alignBottom="@+id/btnDownloadMeal"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="17dp"
+        android:layout_marginStart="17dp"
+        android:layout_toLeftOf="@+id/btnViewDel"
+        android:layout_toStartOf="@+id/btnViewDel" />
 
     <Button
         android:id="@+id/btnDownloadMeal"
@@ -200,9 +202,11 @@
         android:id="@+id/btnViewDel"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignBottom="@+id/toolbar3"
+        android:background="@mipmap/ic_del_o"
+        android:layout_alignBaseline="@+id/viewMealName"
+        android:layout_alignBottom="@+id/viewMealName"
         android:layout_toLeftOf="@+id/btnDownloadMeal"
-        android:background="@mipmap/ic_del_o"/>
+        android:layout_toStartOf="@+id/btnDownloadMeal" />
 
 
 </RelativeLayout>

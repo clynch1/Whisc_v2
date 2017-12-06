@@ -25,7 +25,7 @@
         android:id="@+id/explore_meal_image"
         android:layout_width="450dp"
         android:layout_height="300dp"
-        app:srcCompat="@mipmap/meal182"
+        android:background="@mipmap/meal_holder"
         android:layout_marginBottom="51dp"
         android:layout_alignBottom="@+id/explore_meal_name"
         android:layout_alignParentLeft="true"
