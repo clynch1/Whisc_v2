@@ -38,6 +38,7 @@ public class Tab2Explore extends Fragment {
     private String selectedMealName, selectedMealDescription, mealId;
     private View rootView;
     public int displayedLength, likedLength, mealIdInt;
+    private boolean isValidMeal;
     LinkedList<Integer> displayedMealIds;
     LinkedList<Integer> likedMealIds;
     @Override
@@ -52,22 +53,24 @@ public class Tab2Explore extends Fragment {
         displayedMealIds = setDisplayedMealIds(mSQLiteHelper);
         likedMealIds = setLikedMealIds(mSQLiteHelper);
 
+        isValidMeal = true;
         setMeal(mSQLiteHelper);
 
         Button likeButton = rootView.findViewById(R.id.likeButton);
         likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Cursor data = mSQLiteHelper.getMealData();
-//                mSQLiteHelper.addMatchesData(mealId);
-                displayedMealIds.push(mealIdInt);
-                displayedLength ++;
-                likedMealIds.push(mealIdInt);
-                likedLength ++;
-                mSQLiteHelper.addDisplayedData(mealIdInt);
-                mSQLiteHelper.addLikedData(mealIdInt);
-                Toast.makeText(getActivity(), "You Liked " + mealName.getText(), Toast.LENGTH_SHORT).show();
-                nextMeal(mSQLiteHelper);
+                if(isValidMeal){
+                    displayedMealIds.push(mealIdInt);
+                    displayedLength ++;
+                    likedMealIds.push(mealIdInt);
+                    likedLength ++;
+                    mSQLiteHelper.addDisplayedData(mealIdInt);
+                    mSQLiteHelper.addLikedData(mealIdInt);
+                    Toast.makeText(getActivity(), "You Liked " + mealName.getText(), Toast.LENGTH_SHORT).show();
+                    nextMeal(mSQLiteHelper);
+                }//end of id
+
 //                Intent intent = new Intent(getActivity(), AccountSettings.class);
 //                startActivity(intent);
             }
@@ -76,12 +79,15 @@ public class Tab2Explore extends Fragment {
         dislikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayedMealIds.push(mealIdInt);
-                displayedLength ++;
-                mSQLiteHelper.addDisplayedData(mealIdInt);
-                Toast.makeText(getActivity(), "You Disliked " +  mealName.getText(), Toast.LENGTH_SHORT).show();
-                mealName.setText("TEST");
-                nextMeal(mSQLiteHelper);
+                if(isValidMeal){
+                    displayedMealIds.push(mealIdInt);
+                    displayedLength ++;
+                    mSQLiteHelper.addDisplayedData(mealIdInt);
+                    Toast.makeText(getActivity(), "You Disliked " +  mealName.getText(), Toast.LENGTH_SHORT).show();
+                    mealName.setText("TEST");
+                    nextMeal(mSQLiteHelper);
+                }//end of if
+
 //                Intent intent = new Intent(getActivity(), AccountSettings.class);
 //                startActivity(intent);
             }
@@ -138,6 +144,7 @@ public class Tab2Explore extends Fragment {
             Bitmap bitmap = BitmapFactory.decodeByteArray(mealImage, 0, mealImage.length);
             imageMeal.setImageBitmap(bitmap);
             mealIdInt = itemID;
+            isValidMeal = true;
         }//end of if
         else if(newMealId == matchIdFlag){
             //match meal
@@ -154,6 +161,7 @@ public class Tab2Explore extends Fragment {
             displayedMealIds = new LinkedList<>();
             likedLength = 0;
             likedMealIds = new LinkedList<>();
+            isValidMeal = true;
             nextMeal(mSQLiteHelper);
 //            Intent intent = new Intent(getActivity(), MainActivity.class);
 //            startActivity(intent);
@@ -161,6 +169,7 @@ public class Tab2Explore extends Fragment {
         else{
             mealName.setText("NO DATA");
             mealDescription.setText("There are meal in the database.  Please try to add a meal and then try again.");
+            isValidMeal = false;
         }//end of else
     }//end of set meal
 

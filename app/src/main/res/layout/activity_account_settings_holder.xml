@@ -1,9 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="whisc.whisc_v2.AccountSettingsHolder">
+    android:layout_height="match_parent">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/addMealName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Account Settings"
+        android:textAlignment="center"
+        android:textColor="@color/colorBackground"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="15dp"
+        android:layout_above="@+id/accountSettingsHolder_add_demo_meals"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/accountSettingsHolder_add_demo_meals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="Add Meals" />
+
+</RelativeLayout>
