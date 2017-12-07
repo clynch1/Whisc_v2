@@ -2,18 +2,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin">
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin">
+
 
 
     <Button
         android:id="@+id/accountSettingsButton"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:background="@mipmap/ic_settings"
+        android:background="@mipmap/ic_settings_home"
         android:onClick="accountSettings"
         android:layout_marginLeft="29dp"
         android:layout_marginStart="29dp"
@@ -79,6 +84,18 @@
         android:layout_below="@+id/accountSettingsButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="26dp" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/homepage_divider"
+        android:layout_marginBottom="36dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 
     <!--<ListView-->

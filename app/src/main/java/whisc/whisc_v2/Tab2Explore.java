@@ -21,6 +21,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -42,10 +44,16 @@ public class Tab2Explore extends Fragment {
     private ListView mListView;
     private View rootView;
     private String selectedMealID;
-    public int displayedLength, likedLength, mealIdInt;
+    public int displayedLength, likedLength, beefLength, chickenLength, porkLength, fishLength, turkeyLength, mealIdInt;
     private boolean isValidMeal;
     LinkedList<Integer> displayedMealIds;
     LinkedList<Integer> likedMealIds;
+    LinkedList<Integer> chickenMeals;
+    LinkedList<Integer> beefMeals;
+    LinkedList<Integer> porkMeals;
+    LinkedList<Integer> fishMeals;
+    LinkedList<Integer> turkeyMeals;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -57,6 +65,11 @@ public class Tab2Explore extends Fragment {
 
         displayedMealIds = setDisplayedMealIds(mSQLiteHelper);
         likedMealIds = setLikedMealIds(mSQLiteHelper);
+        chickenMeals = setLikedMealIds(mSQLiteHelper);
+        beefMeals = setBeefMeals(mSQLiteHelper);
+        porkMeals = setPorkMeals(mSQLiteHelper);
+        fishMeals = setFishMeals(mSQLiteHelper);
+        turkeyMeals = setTurkeyMeals(mSQLiteHelper);
 
         isValidMeal = true;
         setMeal(mSQLiteHelper);
@@ -201,6 +214,63 @@ public class Tab2Explore extends Fragment {
         }//end of else
     }//end of set meal
 
+    public int matchingAlg(){
+        return 1;
+//        JSONObject obj = JSONUtils.getJSONObjectFromFile("/obj.json");
+//
+//        JSONArray jsonArray = obj.getJSONArray("Chicken");
+//        int chicken = jsonArray.length();
+//        int rnd1 = new Random().nextInt(jsonArray.length());
+//        //System.out.println(chicken);
+//
+//        JSONArray jsonArray2 = obj.getJSONArray("Beef");
+//        int beef = jsonArray2.length();
+//        int rnd2 = new Random().nextInt(jsonArray2.length());
+//        //System.out.println(beef);
+//
+//        JSONArray jsonArray3 = obj.getJSONArray("Pork");
+//        int pork = jsonArray3.length();
+//        int rnd3 = new Random().nextInt(jsonArray3.length());
+//        //System.out.println(pork);
+//
+//        JSONArray jsonArray4 = obj.getJSONArray("Fish");
+//        int fish = jsonArray4.length();
+//        int rnd4 = new Random().nextInt(jsonArray4.length());
+//        //System.out.println(fish);
+//
+//        JSONArray jsonArray5 = obj.getJSONArray("Turkey");
+//        int turkey = jsonArray5.length();
+//        int rnd5 = new Random().nextInt(jsonArray5.length());
+//        //System.out.println(turkey);
+//
+//        JSONArray matchedMeals = obj.getJSONArray("Matched Meals");
+//
+//        if ((turkey >= chicken) && (turkey >= beef) && (turkey >= pork) && (turkey >= fish)) {
+//            System.out.println ("Your most desired meal is " + "turkey. " + "You liked " + turkey + " turkey meals.");
+//            System.out.println ("We recommend meal " + rnd5 + ".");
+//            matchedMeals.put(rnd5);
+//        } else if ((fish >= chicken) && (fish >= beef) && (fish >= pork)) {
+//            System.out.println ("Your most desired meal is " + "fish. " + "You liked " + fish + " fish meals.");
+//            System.out.println ("We recommend meal " + rnd4 + ".");
+//            matchedMeals.put(rnd4);
+//        } else if ((chicken >= beef) && (chicken >= pork)) {
+//            System.out.println ("Your most desired meal is " + "chicken. " + "You liked " + chicken + " chicken meals.");
+//            System.out.println ("We recommend meal " + rnd1 + ".");
+//            matchedMeals.put(rnd1);
+//
+//        } else if (beef >= pork) {
+//            System.out.println ("Your most desired meal is " + "beef. " + "You liked " + beef + " beef meals.");
+//            System.out.println ("We recommend meal " + rnd2 + ".");
+//            matchedMeals.put(rnd2);
+//        } else {
+//            System.out.println ("Your most desired meal is " + "pork. " + "You liked " + pork + " pork meals.");
+//            System.out.println ("We recommend meal " + rnd3 + ".");
+//            matchedMeals.put(rnd3);
+//        }
+//
+//        System.out.println(obj);
+    }//end of matchingAlg
+
     public int getRandomMealId(SQLiteHelper mSQLiteHelper){
         int randomId;
         Cursor data = mSQLiteHelper.getMealData();
@@ -265,6 +335,81 @@ public class Tab2Explore extends Fragment {
         }//end of if
         return likedMealIds;
     }//end of setDisplayedMealIds
+
+    public LinkedList<Integer> setBeefMeals(SQLiteHelper mSQLiteHelper){
+        LinkedList<Integer> beefMeals = new LinkedList<>();
+        Cursor beefData = mSQLiteHelper.getBeefData();
+        int numberOfBeefMeals = beefData.getCount();
+        beefData.moveToFirst();
+        if(numberOfBeefMeals!= 0){
+            for(int i = 0; i < numberOfBeefMeals; i++){
+                beefMeals.push(beefData.getInt(1));
+                beefLength ++;
+                beefData.moveToNext();
+            }//end of for
+        }//end of if
+        return beefMeals;
+    }//end of setBeefMeals
+
+    public LinkedList<Integer> setPorkMeals(SQLiteHelper mSQLiteHelper){
+        LinkedList<Integer> porkMeals = new LinkedList<>();
+        Cursor porkData = mSQLiteHelper.getPorkData();
+        int numberOfPorkMeals = porkData.getCount();
+        porkData.moveToFirst();
+        if(numberOfPorkMeals != 0){
+            for(int i = 0; i < numberOfPorkMeals; i++){
+                porkMeals.push(porkData.getInt(1));
+                porkLength++;
+                porkData.moveToNext();
+            }//end of for
+        }//end of if
+        return porkMeals;
+    }//end of setPorkMeals
+
+    public LinkedList<Integer> setChickenMeals(SQLiteHelper mSQLiteHelper){
+        LinkedList<Integer> chickenMeals = new LinkedList<>();
+        Cursor chickenData = mSQLiteHelper.getChickenData();
+        int numberOfChickenMeals = chickenData.getCount();
+        chickenData.moveToFirst();
+        if(numberOfChickenMeals != 0){
+            for(int i = 0; i < numberOfChickenMeals; i++){
+                chickenMeals.push(chickenData.getInt(1));
+                chickenLength++;
+                chickenData.moveToNext();
+            }//end of for
+        }//end of if
+        return chickenMeals;
+    }//end of setPorkMeals
+
+    public LinkedList<Integer> setFishMeals(SQLiteHelper mSQLiteHelper){
+        LinkedList<Integer> fishMeals = new LinkedList<>();
+        Cursor fishData = mSQLiteHelper.getFishData();
+        int numberOfLikedMeals = fishData.getCount();
+        fishData.moveToFirst();
+        if(numberOfLikedMeals != 0){
+            for(int i = 0; i < numberOfLikedMeals; i++){
+                fishMeals.push(fishData.getInt(1));
+                fishLength ++;
+                fishData.moveToNext();
+            }//end of for
+        }//end of if
+        return fishMeals;
+    }//end of setFishMeals
+
+    public LinkedList<Integer> setTurkeyMeals(SQLiteHelper mSQLiteHelper){
+        LinkedList<Integer> turkeyMeals = new LinkedList<>();
+        Cursor turkeyData = mSQLiteHelper.getTurkeyData();
+        int numberOfLikedMeals = turkeyData.getCount();
+        turkeyData.moveToFirst();
+        if(numberOfLikedMeals != 0){
+            for(int i = 0; i < numberOfLikedMeals; i++){
+                turkeyMeals.push(turkeyData.getInt(1));
+                turkeyLength ++;
+                turkeyData.moveToNext();
+            }//end of for
+        }//end of if
+        return turkeyMeals;
+    }//end of setTurkeyMeals
 
     public static byte[] imageViewToByte(ImageView image) {
         Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();

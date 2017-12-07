@@ -36,8 +36,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add Meals"
-        android:layout_marginRight="19dp"
-        android:layout_marginEnd="19dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_alignTop="@+id/accountSettingsHolder_number_of_meals"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
@@ -58,13 +58,11 @@
 
     <ImageView
         android:id="@+id/accountSettingsHolder_imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/accountSettingsHolder_number_of_meals"
-        android:layout_alignStart="@+id/accountSettingsHolder_number_of_meals"
-        android:layout_below="@+id/accountSettingsHolder_add_demo_meals"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         app:srcCompat="@mipmap/meal_holder"
-        android:layout_alignRight="@+id/accountSettingsHolder_add_demo_meals"
-        android:layout_alignEnd="@+id/accountSettingsHolder_add_demo_meals" />
+        android:layout_alignTop="@+id/accountSettingsHolder_number_of_meals"
+        android:layout_toLeftOf="@+id/accountSettingsHolder_number_of_meals"
+        android:layout_toStartOf="@+id/accountSettingsHolder_number_of_meals" />
 
 </RelativeLayout>

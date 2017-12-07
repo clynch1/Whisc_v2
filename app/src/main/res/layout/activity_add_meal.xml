@@ -20,12 +20,12 @@
             <ImageView
                 android:id="@+id/imageMeal"
                 android:layout_width="450dp"
-                android:layout_height="150dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="68dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="58dp"
                 android:background="@mipmap/meal_holder"
-                android:layout_toLeftOf="@+id/btnAddImg"
-                android:layout_toStartOf="@+id/btnAddImg" />
+                android:layout_alignParentTop="true"
+                android:layout_alignRight="@+id/btnAddImg"
+                android:layout_alignEnd="@+id/btnAddImg" />
 
             <Button
                 android:id="@+id/btnAddImg"

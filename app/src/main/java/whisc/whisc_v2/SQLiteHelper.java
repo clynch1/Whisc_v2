@@ -52,8 +52,25 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     private static final String L_COL1 = "id";
     private static final String L_COL2 = "meal_id";
 
+    private static final String BEEF_TABLE = "liked_table";
+    private static final String BE_COL1 = "id";
+    private static final String BE_COL2 = "meal_id";
 
+    private static final String PORK_TABLE = "liked_table";
+    private static final String P_COL1 = "id";
+    private static final String P_COL2 = "meal_id";
 
+    private static final String CHICKEN_TABLE = "liked_table";
+    private static final String C_COL1 = "id";
+    private static final String C_COL2 = "meal_id";
+
+    private static final String FISH_TABLE = "liked_table";
+    private static final String F_COL1 = "id";
+    private static final String F_COL2 = "meal_id";
+
+    private static final String TURKEY_TABLE = "liked_table";
+    private static final String T_COL1 = "id";
+    private static final String T_COL2 = "meal_id";
 
     public SQLiteHelper(Context context) {
         super(context, TABLE_MEAL, null, 1);
@@ -93,6 +110,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         createDisplayedTable(db);
         createLikedTable(db);
         createHolderTable(db);
+        createBeefTable(db);
+        createPorkTable(db);
+        createChickenTable(db);
+        createFishTable(db);
+        createTurkeyTable(db);
     }//end of onCreate
 
     public void createDisplayedTable(SQLiteDatabase db){
@@ -101,7 +123,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         db.execSQL(createDispayedTable);
         Log.d(TAG, "Created Table " + DISPLAYED_TABLE);
-    }//end of createHolderTable
+    }//end of createDisplayedTable
 
     public void createLikedTable(SQLiteDatabase db){
         String createLikedTable = "CREATE TABLE " + LIKED_TABLE + " (id INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT, " +
@@ -109,6 +131,46 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         db.execSQL(createLikedTable);
         Log.d(TAG, "Created Table " + LIKED_TABLE);
+    }//end of createLikedTable
+
+    public void createBeefTable(SQLiteDatabase db){
+        String createBeefTable = "CREATE TABLE " + BEEF_TABLE + " (id INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                BE_COL2 +" INT);";
+
+        db.execSQL(createBeefTable);
+        Log.d(TAG, "Created Table " + BEEF_TABLE);
+    }//end of createHolderTable
+
+    public void createPorkTable(SQLiteDatabase db){
+        String createPorkTable = "CREATE TABLE " + PORK_TABLE + " (id INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                P_COL2 +" INT);";
+
+        db.execSQL(createPorkTable);
+        Log.d(TAG, "Created Table " + PORK_TABLE);
+    }//end of createHolderTable
+
+    public void createChickenTable(SQLiteDatabase db){
+        String createChickenTable = "CREATE TABLE " + CHICKEN_TABLE + " (id INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                C_COL2 +" INT);";
+
+        db.execSQL(createChickenTable);
+        Log.d(TAG, "Created Table " + CHICKEN_TABLE);
+    }//end of createHolderTable
+
+    public void createFishTable(SQLiteDatabase db){
+        String createFishTable = "CREATE TABLE " + FISH_TABLE + " (id INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                F_COL2 +" INT);";
+
+        db.execSQL(createFishTable);
+        Log.d(TAG, "Created Table " + FISH_TABLE);
+    }//end of createHolderTable
+
+    public void createTurkeyTable(SQLiteDatabase db){
+        String createTurkeyTable = "CREATE TABLE " + TURKEY_TABLE + " (id INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                T_COL2 +" INT);";
+
+        db.execSQL(createTurkeyTable);
+        Log.d(TAG, "Created Table " + TURKEY_TABLE);
     }//end of createHolderTable
 
     public void createHolderTable(SQLiteDatabase db){
@@ -139,6 +201,20 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + LIKED_TABLE);
         createDisplayedTable(db);
         createLikedTable(db);
+    }//end of dropHolderTable
+
+    public void dropMeatsTables(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + BEEF_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + PORK_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + CHICKEN_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + FISH_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + TURKEY_TABLE);
+        createBeefTable(db);
+        createPorkTable(db);
+        createChickenTable(db);
+        createFishTable(db);
+        createTurkeyTable(db);
     }//end of dropHolderTable
 
     public boolean addMealData(String meal_name, String meal_description, String prep_time, String cook_time,
@@ -238,6 +314,91 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         }
     }//end of addMealData
 
+    public boolean addBeefData(int mealID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(BE_COL2, mealID);
+
+        Log.d(TAG, "addBeefData: Adding " + mealID + " to " + BEEF_TABLE);
+
+        long result = db.insert(BEEF_TABLE, null, contentValues);
+
+        //if date as inserted incorrectly it will return -1
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }//end of addMealData
+
+    public boolean addPorkData(int mealID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(P_COL2, mealID);
+
+        Log.d(TAG, "addPorkData: Adding " + mealID + " to " + PORK_TABLE);
+
+        long result = db.insert(PORK_TABLE, null, contentValues);
+
+        //if date as inserted incorrectly it will return -1
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }//end of addMealData
+
+    public boolean addChickenData(int mealID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(C_COL2, mealID);
+
+        Log.d(TAG, "addChickenData: Adding " + mealID + " to " + CHICKEN_TABLE);
+
+        long result = db.insert(CHICKEN_TABLE, null, contentValues);
+
+        //if date as inserted incorrectly it will return -1
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }//end of addMealData
+
+    public boolean addFishData(int mealID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(F_COL2, mealID);
+
+        Log.d(TAG, "addFishData: Adding " + mealID + " to " + FISH_TABLE);
+
+        long result = db.insert(FISH_TABLE, null, contentValues);
+
+        //if date as inserted incorrectly it will return -1
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }//end of addMealData
+
+    public boolean addTurkeyData(int mealID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(T_COL2, mealID);
+
+        Log.d(TAG, "addTurkeyData: Adding " + mealID + " to " + TURKEY_TABLE);
+
+        long result = db.insert(TURKEY_TABLE, null, contentValues);
+
+        //if date as inserted incorrectly it will return -1
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }//end of addMealData
+
     public boolean addMatchesData(String meal_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -290,6 +451,41 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public Cursor getLikedData(){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + LIKED_TABLE;
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }//end of getMealData
+
+    public Cursor getBeefData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + BEEF_TABLE;
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }//end of getMealData
+
+    public Cursor getPorkData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + PORK_TABLE;
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }//end of getMealData
+
+    public Cursor getChickenData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + CHICKEN_TABLE;
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }//end of getMealData
+
+    public Cursor getFishData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + FISH_TABLE;
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }//end of getMealData
+
+    public Cursor getTurkeyData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TURKEY_TABLE;
         Cursor data = db.rawQuery(query, null);
         return data;
     }//end of getMealData
