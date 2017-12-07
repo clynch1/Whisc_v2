@@ -25,7 +25,7 @@
         android:id="@+id/addMealButton"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:background="@mipmap/ic_add"
+        android:background="@mipmap/ic_add_meal_home"
         android:layout_marginRight="35dp"
         android:layout_marginEnd="35dp"
         android:layout_below="@+id/textView7"
@@ -79,26 +79,6 @@
         android:layout_below="@+id/accountSettingsButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="26dp" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Meal"
-        android:layout_below="@+id/addMealButton"
-        android:layout_alignLeft="@+id/addMealButton"
-        android:layout_alignStart="@+id/addMealButton" />
-
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Settings"
-        android:layout_below="@+id/accountSettingsButton"
-        android:layout_alignRight="@+id/accountSettingsButton"
-        android:layout_alignEnd="@+id/accountSettingsButton"
-        android:layout_marginRight="8dp"
-        android:layout_marginEnd="8dp" />
 
 
     <!--<ListView-->
