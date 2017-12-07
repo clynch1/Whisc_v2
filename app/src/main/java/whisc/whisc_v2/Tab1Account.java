@@ -75,51 +75,6 @@ public class Tab1Account  extends Fragment {
 
     private void populateListView(View view) {
         Log.d(TAG, "populateListView: Displaying data in the ListView.");
-
-//        //get the data and append to a list
-//        Cursor data = mSQLiteHelper.getMealData();
-//        List<HashMap<String, Blob>> aList = new ArrayList<>();
-//        while(data.moveToNext()){
-//            String name = data.getString(1);
-//            HashMap<String, Blob> hm = new HashMap<>();
-//            hm.put("name", name);
-//            hm.put("img", data.getBlob(6));
-//            aList.add(hm);
-////            listData.add(data.getString(1));
-//        }
-////        List<HashMap<String, Blob>> aList = new ArrayList<HashMap<String, Blob>>();
-////        while(data.moveToNext()){
-////            String name = data.getString(1);
-////            HashMap<String, Blob> hm = new HashMap<>();
-////            hm.put("name", name);
-////            hm.put("img", data.getBlob(6));
-////            aList.add(hm);
-//////            listData.add(data.getString(1));
-////        }
-//
-//        // Keys used in Hashmap
-//        String[] from = { "name","img"};
-//
-//        // Ids of views in listview_layout
-//        int[] to = { R.id.meal_layout_name,R.id.meal_layout_image};
-//
-//        // Instantiating an adapter to store each items
-//        // R.layout.listview_layout defines the layout of each item
-//        SimpleAdapter adapter = new SimpleAdapter(getContext(), aList, R.layout.meal_layout, from, to);
-//
-//        // Getting a reference to listview of main.xml layout file
-////        ListView listView = ( ListView ) view.findViewById(R.id.meal_list_view);
-//
-//        // Setting the adapter to the listView
-//        mListView.setAdapter(adapter);
-//
-//
-
-
-
-
-
-
     //get the data and append to a list
     Cursor data = mSQLiteHelper.getMealData();
     ArrayList<String> listData = new ArrayList<>();

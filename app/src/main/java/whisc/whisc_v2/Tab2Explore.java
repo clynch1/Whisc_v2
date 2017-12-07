@@ -12,9 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +39,9 @@ public class Tab2Explore extends Fragment {
     private ImageView imageMeal;
     private TextView mealName, mealDescription;
     private String selectedMealName, selectedMealDescription, mealId;
+    private ListView mListView;
     private View rootView;
+    private String selectedMealID;
     public int displayedLength, likedLength, mealIdInt;
     private boolean isValidMeal;
     LinkedList<Integer> displayedMealIds;
@@ -70,9 +75,24 @@ public class Tab2Explore extends Fragment {
                     Toast.makeText(getActivity(), "You Liked " + mealName.getText(), Toast.LENGTH_SHORT).show();
                     nextMeal(mSQLiteHelper);
                 }//end of id
-
-//                Intent intent = new Intent(getActivity(), AccountSettings.class);
-//                startActivity(intent);
+            }
+        });
+        Button supLikeButton = rootView.findViewById(R.id.suplikeButton);
+        supLikeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isValidMeal){
+                    String mealId = String.valueOf(mealIdInt);
+                    Toast.makeText(getActivity(), "You Matched With " + mealName.getText(), Toast.LENGTH_LONG).show();
+                    mSQLiteHelper.addMatchesData(mealId);
+                    mSQLiteHelper.dropDispayedLikedTables();
+                    displayedMealIds = new LinkedList<>();
+                    displayedLength = 0;
+                    likedMealIds = new LinkedList<>();
+                    likedLength = 0;
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    startActivity(intent);
+                }//end of id
             }
         });
         Button dislikeButton = rootView.findViewById(R.id.dislikeButton);
@@ -87,9 +107,6 @@ public class Tab2Explore extends Fragment {
                     mealName.setText("TEST");
                     nextMeal(mSQLiteHelper);
                 }//end of if
-
-//                Intent intent = new Intent(getActivity(), AccountSettings.class);
-//                startActivity(intent);
             }
         });
 
@@ -99,20 +116,26 @@ public class Tab2Explore extends Fragment {
     public void nextMeal(SQLiteHelper mSQLiteHelper){
         if(displayedLength == 5){
             //choose a match
-            int matchedMealIdInt = likedMealIds.peekLast();
-            String macthedMealId = String.valueOf(matchedMealIdInt);
-            Cursor mealData =mSQLiteHelper.getMealData();
-            mealData.move(matchedMealIdInt);
-            String mealName = mealData.getString(1);
-            Toast.makeText(getActivity(), "You Matched With " + mealName, Toast.LENGTH_LONG).show();
-            mSQLiteHelper.addMatchesData(macthedMealId);
-            mSQLiteHelper.dropDispayedLikedTables();
-            displayedMealIds = new LinkedList<>();
-            displayedLength = 0;
-            likedMealIds = new LinkedList<>();
-            likedLength = 0;
-            Intent intent = new Intent(getActivity(), AccountSettings.class);
-            startActivity(intent);
+            if(likedLength != 0){
+                int matchedMealIdInt = likedMealIds.peekLast();
+                String macthedMealId = String.valueOf(matchedMealIdInt);
+                Cursor mealData =mSQLiteHelper.getMealData();
+                mealData.move(matchedMealIdInt);
+                String mealName = mealData.getString(1);
+                Toast.makeText(getActivity(), "You Matched With " + mealName, Toast.LENGTH_LONG).show();
+                mSQLiteHelper.addMatchesData(macthedMealId);
+                mSQLiteHelper.dropDispayedLikedTables();
+                displayedMealIds = new LinkedList<>();
+                displayedLength = 0;
+                likedMealIds = new LinkedList<>();
+                likedLength = 0;
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+            }//end of if
+            else{
+                displayedLength = 0;
+                displayedMealIds = new LinkedList<>();
+            }//end of else
         }//end of if
         setMeal(mSQLiteHelper);
     }//end of nextMeal
@@ -121,6 +144,7 @@ public class Tab2Explore extends Fragment {
         imageMeal = (ImageView) rootView.findViewById(R.id.explore_meal_image);
         mealName = (TextView) rootView.findViewById(R.id.explore_meal_name);
         mealDescription = (TextView) rootView.findViewById(R.id.explore_meal_description);
+        mListView = (ListView) rootView.findViewById(R.id.explore_meal_ingredients);
 
         int newMealId = getRandomMealId(mSQLiteHelper);
 
@@ -138,6 +162,8 @@ public class Tab2Explore extends Fragment {
 
             mealName.setText(selectedMealName);
             mealDescription.setText(selectedMealDescription);
+
+            populateListView(String.valueOf(itemID));
 
             Cursor imgData = mSQLiteHelper.getMealImg(mealId);
             imgData.moveToFirst();
@@ -164,11 +190,9 @@ public class Tab2Explore extends Fragment {
             likedLength = 0;
             likedMealIds = new LinkedList<>();
             isValidMeal = true;
-            Intent intent = new Intent(getActivity(), AccountSettings.class);
+            Intent intent = new Intent(getActivity(), MainActivity.class);
             startActivity(intent);
             nextMeal(mSQLiteHelper);
-//            Intent intent = new Intent(getActivity(), MainActivity.class);
-//            startActivity(intent);
         }//end of else if
         else{
             mealName.setText("NO DATA");
@@ -249,5 +273,21 @@ public class Tab2Explore extends Fragment {
         byte[] byteArray = stream.toByteArray();
         return byteArray;
     }//end of imageViewToByte
+
+    private void populateListView(String mealId) {
+        Log.d(TAG, "populateListView: Displaying data in the ListView.");
+        //get the data and append to a list
+        Cursor ingredientData = mSQLiteHelper.getMealIngredients(mealId);
+        ArrayList<String> listData = new ArrayList<>();
+        while(ingredientData.moveToNext()){
+            //get the value from the database in column 1
+            //then add it to the ArrayList
+            listData.add(ingredientData.getString(3));
+        }
+        //create the list adapter and set the adapter
+        ListAdapter adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, listData);
+        mListView.setAdapter(adapter);
+        }
+
 }
 

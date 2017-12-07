@@ -608,7 +608,6 @@ public class AccountSettingsHolder extends AppCompatActivity {
                     mSQLiteHelper.addIngredientsData(mealID, "½ tsp", "smoked paprika to taste");
                     mSQLiteHelper.addIngredientsData(mealID, "", "salt and freshly ground black pepper");
                     mSQLiteHelper.addIngredientsData(mealID, "2 tbsp", "butter melted");
-                    mSQLiteHelper.addIngredientsData(mealID, "2 tbsp", "butter melted");
                     break;
                 }//end of case 15
                 case 16:{
@@ -641,7 +640,6 @@ public class AccountSettingsHolder extends AppCompatActivity {
                     mSQLiteHelper.addIngredientsData(mealID, "2 tbsp", "balsamic vinegar");
                     mSQLiteHelper.addIngredientsData(mealID, "½ tsp", "smoked paprika to taste");
                     mSQLiteHelper.addIngredientsData(mealID, "", "salt and freshly ground black pepper");
-                    mSQLiteHelper.addIngredientsData(mealID, "2 tbsp", "butter melted");
                     mSQLiteHelper.addIngredientsData(mealID, "2 tbsp", "butter melted");
                     break;
                 }//end of case 16
@@ -981,11 +979,6 @@ public class AccountSettingsHolder extends AppCompatActivity {
                     mSQLiteHelper.addIngredientsData(mealID, "1", "free-range egg");
                     mSQLiteHelper.addIngredientsData(mealID, "250ml/9fl oz", "milk");
                     mSQLiteHelper.addIngredientsData(mealID, "200g/7oz", "butter melted");
-                    mSQLiteHelper.addIngredientsData(mealID, "315g/11oz", "cornmeal");
-                    mSQLiteHelper.addIngredientsData(mealID, "315g/11oz", "cornmeal");
-                    mSQLiteHelper.addIngredientsData(mealID, "315g/11oz", "cornmeal");
-                    mSQLiteHelper.addIngredientsData(mealID, "315g/11oz", "cornmeal");
-                    mSQLiteHelper.addIngredientsData(mealID, "315g/11oz", "cornmeal");
                     mSQLiteHelper.addIngredientsData(mealID, "315g/11oz", "cornmeal");
                     break;
                 }//end of case 26
