@@ -111,6 +111,8 @@ public class Tab2Explore extends Fragment {
             displayedLength = 0;
             likedMealIds = new LinkedList<>();
             likedLength = 0;
+            Intent intent = new Intent(getActivity(), AccountSettings.class);
+            startActivity(intent);
         }//end of if
         setMeal(mSQLiteHelper);
     }//end of nextMeal
@@ -162,6 +164,8 @@ public class Tab2Explore extends Fragment {
             likedLength = 0;
             likedMealIds = new LinkedList<>();
             isValidMeal = true;
+            Intent intent = new Intent(getActivity(), AccountSettings.class);
+            startActivity(intent);
             nextMeal(mSQLiteHelper);
 //            Intent intent = new Intent(getActivity(), MainActivity.class);
 //            startActivity(intent);
