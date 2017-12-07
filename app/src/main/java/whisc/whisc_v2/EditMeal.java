@@ -38,13 +38,13 @@ public class EditMeal extends AppCompatActivity {
     private static final String TAG = "EditDataActivity";
 
     private Button btnSave,btnDelete, btnAddIngredients, btnAddImg;
-    private EditText editable_name, editable_description, editable_prep, editable_cook, editable_serving, editable_directions;
+    private EditText editable_name, editable_description, editable_prep, editable_cook, editable_serving, editable_directions, editable_meat;
     private ImageView imageMeal;
 
     private ListView mListView;
     SQLiteHelper mSQLiteHelper;
 
-    private String selectedName, selectedDescription, selectedPrep, selectedCook, selectedServing, selectedDirections, selectedMealID;
+    private String selectedName, selectedDescription, selectedPrep, selectedCook, selectedServing, selectedDirections, selectedMealID, selectedMeat;
     private int selectedID;
 
     final int REQUEST_CODE_GALLERY = 999;
@@ -63,6 +63,7 @@ public class EditMeal extends AppCompatActivity {
         editable_prep = (EditText) findViewById(R.id.editPrepTime);
         editable_cook = (EditText) findViewById(R.id.editCookTime);
         editable_serving = (EditText) findViewById(R.id.editServingSize);
+        editable_meat = (EditText) findViewById(R.id.editMeatType);
         editable_directions = (EditText) findViewById(R.id.editMealDirections);
         imageMeal = (ImageView) findViewById(R.id.imageMeal);
         mSQLiteHelper = new SQLiteHelper(this);
@@ -103,6 +104,7 @@ public class EditMeal extends AppCompatActivity {
         selectedPrep = receivedIntent.getStringExtra("prep");
         selectedCook = receivedIntent.getStringExtra("cook");
         selectedServing = receivedIntent.getStringExtra("serving");
+        selectedMeat = receivedIntent.getStringExtra("meat");
         selectedDirections = receivedIntent.getStringExtra("directions");
 
 
@@ -117,6 +119,7 @@ public class EditMeal extends AppCompatActivity {
                 editable_prep.setText(receivedIntent.getStringExtra("editPrep"));
                 editable_cook.setText(receivedIntent.getStringExtra("editCook"));
                 editable_serving.setText(receivedIntent.getStringExtra("editServing"));
+                editable_meat.setText(receivedIntent.getStringExtra("editMeat"));
                 editable_directions.setText(receivedIntent.getStringExtra("editDirection"));
                 selectedID = receivedIntent.getIntExtra("id",-1);
                 break;
@@ -126,6 +129,7 @@ public class EditMeal extends AppCompatActivity {
                 editable_prep.setText(selectedPrep);
                 editable_cook.setText(selectedCook);
                 editable_serving.setText(selectedServing);
+                editable_meat.setText(selectedMeat);
                 editable_directions.setText(selectedDirections);
                 selectedID = receivedIntent.getIntExtra("id",-1); //NOTE: -1 is just the default value
                 break;
@@ -153,6 +157,7 @@ public class EditMeal extends AppCompatActivity {
                 String prep = editable_prep.getText().toString();
                 String cook = editable_cook.getText().toString();
                 String serving = editable_serving.getText().toString();
+                String meat = editable_meat.getText().toString();
                 String directions = editable_directions.getText().toString();
                 if(!name.equals("")){
                     mSQLiteHelper.updateMeal(selectedID,name,selectedName,
@@ -161,7 +166,8 @@ public class EditMeal extends AppCompatActivity {
                             cook, selectedCook,
                             serving, selectedServing,
                             directions, selectedDirections,
-                            imageViewToByte(imageMeal), oldMealImg);
+                            imageViewToByte(imageMeal), oldMealImg,
+                            meat, selectedMeat);
                     imageMeal.setImageResource(R.mipmap.ic_camera);
                     Intent intent = new Intent(EditMeal.this, MainActivity.class);
                     startActivity(intent);
@@ -190,6 +196,7 @@ public class EditMeal extends AppCompatActivity {
                 String prep = editable_prep.getText().toString();
                 String cook = editable_cook.getText().toString();
                 String serving = editable_serving.getText().toString();
+                String meat = editable_meat.getText().toString();
                 String directions = editable_directions.getText().toString();
 
                 Intent intent = new Intent(EditMeal.this, AddIngredient.class);
@@ -198,6 +205,7 @@ public class EditMeal extends AppCompatActivity {
                     intent.putExtra("editPrep",prep.toString());
                     intent.putExtra("editCook",cook.toString());
                     intent.putExtra("editServing",serving.toString());
+                    intent.putExtra("editMeat",meat.toString());
                     intent.putExtra("editDirection",directions.toString());
                     intent.putExtra("add_type", "edit");
                     intent.putExtra("meal_id", mealId);
@@ -263,6 +271,7 @@ public class EditMeal extends AppCompatActivity {
                     String p_prep = editable_prep.getText().toString();
                     String p_cook = editable_cook.getText().toString();
                     String p_serving = editable_serving.getText().toString();
+                    String p_meat = editable_meat.getText().toString();
                     String p_directions = editable_directions.getText().toString();
 
                     editScreenIntent.putExtra("editName",p_name.toString());
@@ -270,6 +279,7 @@ public class EditMeal extends AppCompatActivity {
                     editScreenIntent.putExtra("editPrep",p_prep.toString());
                     editScreenIntent.putExtra("editCook",p_cook.toString());
                     editScreenIntent.putExtra("editServing",p_serving.toString());
+                    editScreenIntent.putExtra("editMeat",p_meat.toString());
                     editScreenIntent.putExtra("editDirection",p_directions.toString());
                     editScreenIntent.putExtra("add_type", "edit");
                     editScreenIntent.putExtra("meal_id", selectedMealID);

@@ -50,7 +50,7 @@
             <EditText
                 android:id="@+id/addMealDescription"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textMultiLine"
                 android:layout_alignParentLeft="true"
@@ -120,6 +120,24 @@
                 android:layout_alignParentStart="true" />
 
             <TextView
+                android:id="@+id/textMeatType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/addMeatType"
+                android:layout_toEndOf="@+id/addPrepTime"
+                android:layout_toRightOf="@+id/addPrepTime"
+                android:text="Meat Type" />
+
+            <EditText
+                android:id="@+id/addMeatType"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/addServingSize"
+                android:layout_toEndOf="@+id/textServingSize"
+                android:layout_toRightOf="@+id/textServingSize"
+                android:layout_below="@+id/textServingSize" />
+
+            <TextView
                 android:id="@+id/textMealDirections"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -131,7 +149,7 @@
             <EditText
                 android:id="@+id/addMealDirections"
                 android:layout_width="400dp"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textMultiLine"
                 android:text=""
@@ -166,11 +184,13 @@
             <ListView
                 android:id="@id/listIngredients"
                 android:layout_width="match_parent"
-                android:layout_height="450dp"
+                android:layout_height="1000dp"
                 android:layout_below="@+id/btnAddIngredient"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="9dp" />
+
+
 
         </RelativeLayout>
     </ScrollView>

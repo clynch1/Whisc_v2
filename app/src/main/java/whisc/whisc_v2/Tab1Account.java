@@ -46,7 +46,7 @@ public class Tab1Account  extends Fragment {
         goToAccountSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AccountSettings.class);
+                Intent intent = new Intent(getActivity(), AccountSettingsHolder.class);
                 startActivity(intent);
             }
         });
@@ -157,6 +157,7 @@ public class Tab1Account  extends Fragment {
                 String Prep = dba.getString(3);
                 String Cook = dba.getString(4);
                 String Serving = dba.getString(5);
+                String Meat = dba.getString(8);
                 String Directions = dba.getString(6);
 
                 editScreenIntent.putExtra("id",itemID);
@@ -165,6 +166,7 @@ public class Tab1Account  extends Fragment {
                 editScreenIntent.putExtra("prep",Prep);
                 editScreenIntent.putExtra("cook",Cook);
                 editScreenIntent.putExtra("serving",Serving);
+                editScreenIntent.putExtra("meat",Meat);
                 editScreenIntent.putExtra("directions",Directions);
                 editScreenIntent.putExtra("start","start");
 

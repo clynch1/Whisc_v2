@@ -27,6 +27,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     private static final String COL6 = "serving_size";
     private static final String COL7 = "meal_directions";
     private static final String COL8 = "meal_image";
+    private static final String COL9 = "meat_type";
 
     private static final String TABLE_INGREDIENTS = "ingredients_table";
     private static final String B_COL1 = "ingredients_id";
@@ -66,9 +67,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 //        String oldCreateMealTable = "CREATE TABLE " + TABLE_MEAL + " (ID INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT, " +
 //                COL2 +" INTEGER NOT NULL," + COL3 +" TEXT," + COL4 +" TEXT," + COL5 +" TEXT," + COL6 +" TEXT," + COL7 +" TEXT);";
 
+//        String createMealTable = "CREATE TABLE " + TABLE_MEAL + " (ID INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+//                COL2 +" INTEGER NOT NULL," + COL3 +" TEXT," + COL4 +" TEXT," + COL5 +" TEXT," + COL6 +" TEXT," + COL7 + " TEST," +
+//                COL8 + " BLOB);";
+
         String createMealTable = "CREATE TABLE " + TABLE_MEAL + " (ID INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT, " +
                 COL2 +" INTEGER NOT NULL," + COL3 +" TEXT," + COL4 +" TEXT," + COL5 +" TEXT," + COL6 +" TEXT," + COL7 + " TEST," +
-                COL8 + " BLOB);";
+                COL8 + " BLOB," + COL9 + " TEXT);";
 
         String createIngredientsTable = "CREATE TABLE " + TABLE_INGREDIENTS + " (ingredients_id INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT, " +
                 B_COL2 +" TEXT," + B_COL3 +" TEXT," + B_COL4 +" TEXT);";
@@ -137,7 +142,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     }//end of dropHolderTable
 
     public boolean addMealData(String meal_name, String meal_description, String prep_time, String cook_time,
-                               String serving_size, String meal_directions, byte[] meal_image) {
+                               String serving_size, String meal_directions, byte[] meal_image, String meat_type) {
         SQLiteDatabase db = this.getWritableDatabase();
 //        onUpgrade(db,1,1);
         ContentValues contentValues = new ContentValues();
@@ -148,6 +153,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         contentValues.put(COL6, serving_size);
         contentValues.put(COL7, meal_directions);
         contentValues.put(COL8, meal_image);
+        contentValues.put(COL9, meat_type);
 
         Log.d(TAG, "addMealData: Adding " + meal_name + " to " + TABLE_MEAL);
 
@@ -308,14 +314,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         return data;
     }//end of getMealID
 
-    public Cursor getMealName(String id){
-        SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT " + COL2 + " FROM " + TABLE_MEAL +
-                " WHERE " + COL1 + " = '" + id + "'";
-        Cursor data = db.rawQuery(query, null);
-        return data;
-    }//end of getMealID
-
     public Cursor getIngredientID(String mealID, String name){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT " + B_COL1 + " FROM " + TABLE_INGREDIENTS +
@@ -359,7 +357,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                                     String newCookTime, String oldCookTime,
                                     String newServingSize, String oldServingSize,
                                     String newDirections, String oldDirections,
-                                    byte[] newImage, byte[] oldImage){
+                                    byte[] newImage, byte[] oldImage,
+                                    String newMeatType, String oldMeatType){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "UPDATE " + TABLE_MEAL + " SET " + COL2 +
                 " = '" + newName + "' WHERE " + COL1 + " = '" + id + "'" +
@@ -402,6 +401,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 " AND " + COL8 + " = '" + oldImage + "'";
         Log.d(TAG, "updateName: query: Updated Image");
 
+        String meatTypeQuery = "UPDATE " + TABLE_MEAL + " SET " + COL9 +
+                " = '" + newMeatType + "' WHERE " + COL1 + " = '" + id + "'" +
+                " AND " + COL9 + " = '" + oldMeatType + "'";
+        Log.d(TAG, "updateName: query: " + meatTypeQuery);
+        Log.d(TAG, "updateName: Setting meat type to " + newMeatType);
+
         db.execSQL(query);
         db.execSQL(descriptionQuery);
         db.execSQL(prepTimeQuery);
@@ -409,6 +414,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.execSQL(servingSizeQuery);
         db.execSQL(mealDirectionsQuery);
         db.execSQL(mealImageQuery);
+        db.execSQL(meatTypeQuery);
     }//end of updateMeal
 
     public void updateIngredients(int id, String newAmount, String oldAmount,

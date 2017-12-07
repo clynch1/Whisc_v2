@@ -24,7 +24,8 @@
             android:label="@string/title_activity_account_settings" />
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_main_activity" />
+            android:label="@string/title_main_activity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".CreateAccount"
             android:label="@string/title_activity_create_account" />

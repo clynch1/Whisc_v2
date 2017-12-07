@@ -34,7 +34,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 public class AddMeal extends AppCompatActivity {
-    EditText editName, editDescription, editPrep_time, editCook_time, editServing_size, editDirections;
+    EditText editName, editDescription, editPrep_time, editCook_time, editServing_size, editDirections, editMeat_Type;
     String meal_name, meal_description, prep_time, cook_time, serving_size, meal_directions;
     ImageView imageMeal;
     Button btnAddIngredient, btnAddData, btnAddImg;
@@ -55,6 +55,7 @@ public class AddMeal extends AppCompatActivity {
         editPrep_time = (EditText) findViewById(R.id.addPrepTime);
         editCook_time = (EditText) findViewById(R.id.addCookTime);
         editServing_size = (EditText) findViewById(R.id.addServingSize);
+        editMeat_Type = (EditText) findViewById(R.id.addMeatType);
         editDirections = (EditText) findViewById(R.id.addMealDirections);
         btnAddIngredient = (Button) findViewById(R.id.btnAddIngredient);
         btnAddData = (Button) findViewById(R.id.btnADD);
@@ -71,6 +72,7 @@ public class AddMeal extends AppCompatActivity {
                 editPrep_time.setText(receivedIntent.getStringExtra("editPrep"));
                 editCook_time.setText(receivedIntent.getStringExtra("editCook"));
                 editServing_size.setText(receivedIntent.getStringExtra("editServing"));
+                editMeat_Type.setText(receivedIntent.getStringExtra("editMeat"));
                 editDirections.setText(receivedIntent.getStringExtra("editDirection"));
                 break;
         }//end of switch
@@ -94,6 +96,7 @@ public class AddMeal extends AppCompatActivity {
                 editPrep_time = (EditText) findViewById(R.id.addPrepTime);
                 editCook_time = (EditText) findViewById(R.id.addCookTime);
                 editServing_size = (EditText) findViewById(R.id.addServingSize);
+                editMeat_Type = (EditText) findViewById(R.id.addMeatType);
                 editDirections = (EditText) findViewById(R.id.addMealDirections);
 
                 Intent intent = new Intent(AddMeal.this, AddIngredient.class);
@@ -102,6 +105,7 @@ public class AddMeal extends AppCompatActivity {
                     intent.putExtra("editPrep",editPrep_time.getText().toString());
                     intent.putExtra("editCook",editCook_time.getText().toString());
                     intent.putExtra("editServing",editServing_size.getText().toString());
+                    intent.putExtra("editMeat",editMeat_Type.getText().toString());
                     intent.putExtra("editDirection",editDirections.getText().toString());
                     intent.putExtra("add_type","add");
                 startActivity(intent);
@@ -118,12 +122,14 @@ public class AddMeal extends AppCompatActivity {
                 String newPrep = editPrep_time.getText().toString();
                 String newCook = editCook_time.getText().toString();
                 String newServing = editServing_size.getText().toString();
+                String newMeatType = editMeat_Type.getText().toString();
                 String newDirections = editDirections.getText().toString();
 
-                if (editName.length() != 0 && editDescription.length() != 0 && editPrep_time.length() != 0 &&
-                        editCook_time.length() != 0 && editServing_size.length() != 0 && editDirections.length() != 0) {
 
-                    AddData(newName, newDescription, newPrep, newCook, newServing, newDirections, imageViewToByte(imageMeal));
+                if (editName.length() != 0 && editDescription.length() != 0 && editPrep_time.length() != 0 &&
+                        editCook_time.length() != 0 && editServing_size.length() != 0 && editMeat_Type.length() != 0 && editDirections.length() != 0) {
+
+                    AddData(newName, newDescription, newPrep, newCook, newServing, newDirections, imageViewToByte(imageMeal), newMeatType);
                     Cursor idData = mSQLiteHelper.getMealID(newName);
                     int mealID_int = -1;
                     while(idData.moveToNext()){
@@ -232,9 +238,9 @@ public class AddMeal extends AppCompatActivity {
 //                finish();
 
     public void AddData(String newName, String newDescription, String newPrep, String newCook,
-                        String newServing, String newDirections, byte[] meal_image) {
+                        String newServing, String newDirections, byte[] meal_image, String meatType) {
         boolean insertData = mSQLiteHelper.addMealData(newName, newDescription, newPrep, newCook, newServing,
-                newDirections, meal_image);
+                newDirections, meal_image, meatType);
 
         if (insertData) {
             toastMessage(newName + " Added!");
@@ -253,7 +259,6 @@ public class AddMeal extends AppCompatActivity {
         }//end of while
         mSQLiteHelper.dropHolderTable();
     }//end of addIngredients
-
 
     private void populateListView() {
         Log.d(TAG, "populateListView: Displaying data in the ListView.");

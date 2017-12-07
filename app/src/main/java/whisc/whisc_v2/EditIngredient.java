@@ -75,6 +75,7 @@ public class EditIngredient extends AppCompatActivity {
                         intent.putExtra("editPrep",receivedIntent.getStringExtra("editPrep"));
                         intent.putExtra("editCook",receivedIntent.getStringExtra("editCook"));
                         intent.putExtra("editServing",receivedIntent.getStringExtra("editServing"));
+                        intent.putExtra("editMeat",receivedIntent.getStringExtra("editMeat"));
                         intent.putExtra("editDirection",receivedIntent.getStringExtra("editDirection"));
                         intent.putExtra("start","i");
                     startActivity(intent);
