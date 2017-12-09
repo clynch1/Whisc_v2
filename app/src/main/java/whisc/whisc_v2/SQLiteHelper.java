@@ -420,6 +420,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
      * Returns all the data from database
      * @return
      */
+    public int getMealDataLength(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_MEAL;
+        Cursor data = db.rawQuery(query, null);
+        int mealDataLength = data.getCount();
+        return mealDataLength;
+    }//end of getMealData
     public Cursor getMealData(){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_MEAL;

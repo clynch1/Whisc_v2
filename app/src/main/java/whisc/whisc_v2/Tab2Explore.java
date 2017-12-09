@@ -40,12 +40,13 @@ public class Tab2Explore extends Fragment {
 
     private ImageView imageMeal;
     private TextView mealName, mealDescription;
-    private String selectedMealName, selectedMealDescription, mealId;
+//    private String selectedMealName, selectedMealDescription;
     private ListView mListView;
     private View rootView;
-    private String selectedMealID;
-    public int displayedLength, likedLength, beefLength, chickenLength, porkLength, fishLength, turkeyLength, mealIdInt;
+//    private String selectedMealID;
+    public int displayedLength, likedLength, beefLength, chickenLength, porkLength, fishLength, turkeyLength, finalMealID;
     private boolean isValidMeal;
+    private Cursor allMealData;
     LinkedList<Integer> displayedMealIds;
     LinkedList<Integer> likedMealIds;
     LinkedList<Integer> chickenMeals;
@@ -58,43 +59,28 @@ public class Tab2Explore extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.tab2explore, container, false);
-//        imageMeal = (ImageView) rootView.findViewById(R.id.explore_meal_image);
-//        mealName = (TextView) rootView.findViewById(R.id.explore_meal_name);
-//        mealDescription = (TextView) rootView.findViewById(R.id.explore_meal_description);
         mSQLiteHelper = new SQLiteHelper(getActivity());
+        allMealData = mSQLiteHelper.getMealData();
 
-        displayedLength = 0;
-        likedLength = 0;
-        chickenLength = 0;
-        porkLength = 0;
-        fishLength = 0;
-        turkeyLength = 0;
-
-        displayedMealIds = setDisplayedMealIds(mSQLiteHelper);
-        likedMealIds = setLikedMealIds(mSQLiteHelper);
-        chickenMeals = setLikedMealIds(mSQLiteHelper);
-        beefMeals = setBeefMeals(mSQLiteHelper);
-        porkMeals = setPorkMeals(mSQLiteHelper);
-        fishMeals = setFishMeals(mSQLiteHelper);
-        turkeyMeals = setTurkeyMeals(mSQLiteHelper);
+        setLists();
 
         isValidMeal = true;
-        setMeal(mSQLiteHelper);
+        finalMealID = setMeal();
 
         Button likeButton = rootView.findViewById(R.id.likeButton);
         likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(isValidMeal){
-                    displayedMealIds.push(mealIdInt);
+                    displayedMealIds.push(finalMealID);
                     displayedLength ++;
-                    likedMealIds.push(mealIdInt);
+                    likedMealIds.push(finalMealID);
                     likedLength ++;
-                    setMealMeat(mealIdInt);
-                    mSQLiteHelper.addDisplayedData(mealIdInt);
-                    mSQLiteHelper.addLikedData(mealIdInt);
-                    Toast.makeText(getActivity(), "You Liked " + mealName.getText(), Toast.LENGTH_SHORT).show();
-                    nextMeal(mSQLiteHelper);
+                    setMealMeat(finalMealID);
+                    mSQLiteHelper.addDisplayedData(finalMealID);
+                    mSQLiteHelper.addLikedData(finalMealID);
+                    Toast.makeText(getActivity(), "You Liked " + mealName.getText().toString(), Toast.LENGTH_SHORT).show();
+                    finalMealID = nextMeal();
                 }//end of id
             }
         });
@@ -103,32 +89,21 @@ public class Tab2Explore extends Fragment {
             @Override
             public void onClick(View v) {
                 if(isValidMeal){
-                    String mealId = String.valueOf(mealIdInt);
-                    Toast.makeText(getActivity(), "You Matched With " + mealName.getText(), Toast.LENGTH_LONG).show();
-                    mSQLiteHelper.addMatchesData(mealId);
-                    mSQLiteHelper.dropDispayedLikedTables();
-                    clean();
-//                    displayedMealIds = new LinkedList<>();
-//                    displayedLength = 0;
-//                    likedMealIds = new LinkedList<>();
-//                    likedLength = 0;
-                    Intent intent = new Intent(getActivity(), ViewMatch.class);
-                    intent.putExtra("id",mealId);
-                    startActivity(intent);
+                    itsAMatch(finalMealID);
                 }//end of id
-            }
+            }//end of onClick
         });
         Button dislikeButton = rootView.findViewById(R.id.dislikeButton);
         dislikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(isValidMeal){
-                    displayedMealIds.push(mealIdInt);
+                    displayedMealIds.push(finalMealID);
                     displayedLength ++;
-                    mSQLiteHelper.addDisplayedData(mealIdInt);
+                    mSQLiteHelper.addDisplayedData(finalMealID);
                     Toast.makeText(getActivity(), "You Disliked " +  mealName.getText(), Toast.LENGTH_SHORT).show();
                     mealName.setText("TEST");
-                    nextMeal(mSQLiteHelper);
+                    finalMealID = nextMeal();
                 }//end of if
             }
         });
@@ -136,94 +111,113 @@ public class Tab2Explore extends Fragment {
         return rootView;
     }//end of onCreate
 
-    public void nextMeal(SQLiteHelper mSQLiteHelper){
-        if(displayedLength == 5){
-            //choose a match
+    public int nextMeal(){
+        allMealData = mSQLiteHelper.getMealData();
+        if(displayedLength == 5){                                                                   //this value sets the session length
             if(likedLength != 0){
-//                int matchedMealIdInt = likedMealIds.peekLast();
-//                String macthedMealId = String.valueOf(matchedMealIdInt);
-//                Cursor mealData =mSQLiteHelper.getMealData();
-//                mealData.move(matchedMealIdInt);
-//                String mealName = mealData.getString(1);
-
-                String matchedMealId = matchingAlg();
-                Cursor mealData = mSQLiteHelper.getMealData();
-                mealData.move(mealIdInt);
-                String mealName = mealData.getString(1);
-                Toast.makeText(getActivity(), "You Matched With " + mealName, Toast.LENGTH_LONG).show();
-                mSQLiteHelper.addMatchesData(String.valueOf(matchedMealId));
-                mSQLiteHelper.dropDispayedLikedTables();
-                mSQLiteHelper.dropMeatsTables();
-                clean();
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                startActivity(intent);
+                itsAMatch(-2);//pass in 0 so that the passed meal id is for a valid meal and it will choose a match
             }//end of if
             else{
                 displayedLength = 0;
                 displayedMealIds = new LinkedList<>();
             }//end of else
         }//end of if
-        setMeal(mSQLiteHelper);
+        int mealId = setMeal();
+        return mealId;
     }//end of nextMeal
 
-    public void setMeal(SQLiteHelper mSQLiteHelper){
+    public int setMeal(){
         imageMeal = (ImageView) rootView.findViewById(R.id.explore_meal_image);
         mealName = (TextView) rootView.findViewById(R.id.explore_meal_name);
         mealDescription = (TextView) rootView.findViewById(R.id.explore_meal_description);
         mListView = (ListView) rootView.findViewById(R.id.explore_meal_ingredients);
 
-        int newMealId = getRandomMealId(mSQLiteHelper);
+        int newMealId = getRandomMealId();
 
         int validMealID = -1;
         int matchIdFlag = -2;
 
         if(newMealId > validMealID){
-            Cursor data = mSQLiteHelper.getMealData(); //get all the meals
-            int itemID = newMealId;
-            data.moveToPosition(itemID);
+//            Cursor data = mSQLiteHelper.getMealData(); //get all the meals
+            allMealData.moveToPosition(newMealId);
 
-            mealId = data.getString(0);
-            selectedMealName = data.getString(1);
-            selectedMealDescription = data.getString(2);
+            mealName.setText(allMealData.getString(1));
+            mealDescription.setText(allMealData.getString(2));
 
-            mealName.setText(selectedMealName);
-            mealDescription.setText(selectedMealDescription);
+            populateListView(String.valueOf(newMealId + 1));
 
-            populateListView(String.valueOf(itemID));
-
-            Cursor imgData = mSQLiteHelper.getMealImg(mealId);
-            imgData.moveToFirst();
+            Cursor imgData = mSQLiteHelper.getMealImg(String.valueOf(newMealId + 1));
+            imgData.moveToLast();
             byte[] mealImage = imgData.getBlob(0);
 
             Bitmap bitmap = BitmapFactory.decodeByteArray(mealImage, 0, mealImage.length);
             imageMeal.setImageBitmap(bitmap);
-            mealIdInt = itemID;
             isValidMeal = true;
         }//end of if
         else if(newMealId == matchIdFlag){
-            String matchedMealId = matchingAlg();
-            Cursor mealData = mSQLiteHelper.getMealData();
-            mealData.move(mealIdInt);
-            String mealName = mealData.getString(1);
-            Toast.makeText(getActivity(), "You Matched With " + mealName, Toast.LENGTH_LONG).show();
-            mSQLiteHelper.addMatchesData(String.valueOf(matchedMealId));
-            mSQLiteHelper.dropDispayedLikedTables();
-            mSQLiteHelper.dropMeatsTables();
-            clean();
-            Intent intent = new Intent(getActivity(), MainActivity.class);
-            startActivity(intent);
-            nextMeal(mSQLiteHelper);
+            itsAMatch(newMealId);
         }//end of else if
         else{
             mealName.setText("NO DATA");
             mealDescription.setText("There are meal in the database.  Please try to add a meal and then try again.");
             isValidMeal = false;
         }//end of else
+        return newMealId;
     }//end of set meal
 
+    //In setLists i am setting up the linked list that will be used to keep track of the values in this class.
+    //I am setting all of the lengths equal to 0 before I call the method to actually set up the tables if they
+    //need to be populated with something.  After they have been set the values in the the lengths may change
+    //if they are filled with values.  All of the methods have meaninful names and should be easy to figure out what
+    //it is they do.
+    public void setLists(){
+        displayedLength = 0;
+        displayedMealIds = setDisplayedMealIds(mSQLiteHelper);
+
+        likedLength = 0;
+        likedMealIds = setLikedMealIds(mSQLiteHelper);
+
+        beefLength = 0;
+        beefMeals = setBeefMeals(mSQLiteHelper);
+
+        porkLength = 0;
+        porkMeals = setPorkMeals(mSQLiteHelper);
+
+        chickenLength = 0;
+        chickenMeals = setChickenMeals(mSQLiteHelper);
+
+        fishLength = 0;
+        fishMeals = setFishMeals(mSQLiteHelper);
+
+        turkeyLength = 0;
+        turkeyMeals = setTurkeyMeals(mSQLiteHelper);
+    }//end of setIngredients
+
+    public void itsAMatch(int passedId){
+        int matchedMealId;
+        if(passedId != -2){                             //this is for when you use the super like
+            matchedMealId = passedId;
+        }//end of if flag
+        else{                                           //this should only be done if the match needs to be calculated
+            matchedMealId = matchingAlg();
+            Cursor mealData = mSQLiteHelper.getMealData();
+            mealData.moveToPosition(matchedMealId);
+        }//end of else
+
+        //cleanup
+        mSQLiteHelper.addMatchesData(String.valueOf(matchedMealId));
+        mSQLiteHelper.dropDispayedLikedTables();
+        mSQLiteHelper.dropMeatsTables();
+        clean();
+
+        //change intent
+        Intent intent = new Intent(getActivity(), ViewMatch.class);
+        intent.putExtra("id",String.valueOf(matchedMealId + 1));
+        startActivity(intent);
+    }//end of itsAMatch
+
     public void setMealMeat(int mealIdInt){
-        Cursor allMealData = mSQLiteHelper.getMealData();
-        allMealData.move(mealIdInt + 1);
+        allMealData.moveToPosition(mealIdInt);                                                  //questionable +1 used here
         String meatType = allMealData.getString(8);
         switch (meatType){
             case "beef":{
@@ -237,29 +231,29 @@ public class Tab2Explore extends Fragment {
                 mSQLiteHelper.addPorkData(mealIdInt);
                 porkLength ++;
                 break;
-            }//end of beef
+            }//end of pork
             case "chicken":{
                 chickenMeals.push(mealIdInt);
                 mSQLiteHelper.addChickenData(mealIdInt);
                 chickenLength ++;
                 break;
-            }//end of beef
+            }//end of chicken
             case "fish":{
                 fishMeals.push(mealIdInt);
                 mSQLiteHelper.addFishData(mealIdInt);
                 fishLength ++;
                 break;
-            }//end of beef
+            }//end of fish
             case "turkey":{
                 turkeyMeals.push(mealIdInt);
                 mSQLiteHelper.addTurkeyData(mealIdInt);
                 turkeyLength ++;
                 break;
-            }//end of beef
+            }//end of turkey
         }//end of switch
     }//end of setMealMeat
 
-    public String matchingAlg(){
+    public int matchingAlg(){
         int rndBeef = 0;
         int rndTurkey = 0;
         int rndFish = 0;
@@ -299,8 +293,7 @@ public class Tab2Explore extends Fragment {
             mealInt = porkMeals.get(rndPork);
         }//end of else if
 
-        String mealId = String.valueOf(mealInt);
-        return mealId;
+        return mealInt;
     }//end of matchingAlg
 
     public void clean(){
@@ -320,10 +313,18 @@ public class Tab2Explore extends Fragment {
         fishLength = 0;
     }//end of clean
 
-    public int getRandomMealId(SQLiteHelper mSQLiteHelper){
+    //This method gets the id for the random meal.  It has the following three possible returns:
+    //              -2:     This is returned if there are no more meals to show, meaning the number
+    //                      of displayed meals is equal to the number of total meals.
+    //              -1:     This is returned when there are no meals at all.  This will only occur if
+    //                      there are no meals in the meals table or in the future when there is
+    //                      no connection to the server.
+    //               0:     This is returned when there is only one meal in the meal table.  If there
+    //                      is only one meal then only one meal can be displayed.
+    //           other:     Other values that may be returned are the actual id values.
+    public int getRandomMealId(){
         int randomId;
-        Cursor data = mSQLiteHelper.getMealData();
-        int numberOfMeals = data.getCount();
+        int numberOfMeals = mSQLiteHelper.getMealDataLength();
 
         if(numberOfMeals != 0){
             if(numberOfMeals > 1 && numberOfMeals != displayedLength){
@@ -474,14 +475,12 @@ public class Tab2Explore extends Fragment {
         Cursor ingredientData = mSQLiteHelper.getMealIngredients(mealId);
         ArrayList<String> listData = new ArrayList<>();
         while(ingredientData.moveToNext()){
-            //get the value from the database in column 1
-            //then add it to the ArrayList
             listData.add(ingredientData.getString(3));
-        }
+        }//end of while
         //create the list adapter and set the adapter
         ListAdapter adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, listData);
         mListView.setAdapter(adapter);
-        }
+    }//end of populateListView
 
 }
 

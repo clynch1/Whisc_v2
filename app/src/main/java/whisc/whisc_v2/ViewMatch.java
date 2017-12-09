@@ -67,7 +67,7 @@ public class ViewMatch extends AppCompatActivity {
 
         int mealID = Integer.parseInt(receivedIntent.getStringExtra("id"));
         Cursor mealData = mSQLiteHelper.getMealData();
-        mealData.moveToPosition(mealID);
+        mealData.moveToPosition(mealID - 1);
 
         //now get the name we passed as an extra
         selectedName = mealData.getString(1);

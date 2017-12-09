@@ -31,13 +31,24 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
 
+            <TextView
+                android:id="@+id/viewMealName"
+                android:layout_width="450dp"
+                android:layout_height="wrap_content"
+                android:text="Meal Name"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_below="@+id/viewImageMeal"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
 
             <TextView
                 android:id="@+id/textMealDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Meal Description"
-                android:layout_below="@+id/viewImageMeal"
+                android:layout_below="@+id/viewMealName"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:textSize="18sp"/>
@@ -192,21 +203,18 @@
         android:layout_alignParentStart="true" />
 
     <TextView
-        android:id="@+id/viewMealName"
+        android:id="@+id/matchHeader"
         android:layout_width="340dp"
-        android:layout_height="20dp"
+        android:layout_height="40dp"
         android:ems="10"
+        android:text="It's a Match!"
+        android:textAlignment="center"
         android:textColor="@color/colorBackground"
         android:textColorHint="@color/colorBackground"
-        android:textSize="18sp"
+        android:textSize="30sp"
         android:textStyle="bold"
-        android:text="Meal Name"
-        android:layout_marginBottom="10dp"
         android:layout_alignBottom="@+id/toolbar3"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp" />
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>
