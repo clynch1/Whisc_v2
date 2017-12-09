@@ -63,6 +63,13 @@ public class Tab2Explore extends Fragment {
 //        mealDescription = (TextView) rootView.findViewById(R.id.explore_meal_description);
         mSQLiteHelper = new SQLiteHelper(getActivity());
 
+        displayedLength = 0;
+        likedLength = 0;
+        chickenLength = 0;
+        porkLength = 0;
+        fishLength = 0;
+        turkeyLength = 0;
+
         displayedMealIds = setDisplayedMealIds(mSQLiteHelper);
         likedMealIds = setLikedMealIds(mSQLiteHelper);
         chickenMeals = setLikedMealIds(mSQLiteHelper);
@@ -83,6 +90,7 @@ public class Tab2Explore extends Fragment {
                     displayedLength ++;
                     likedMealIds.push(mealIdInt);
                     likedLength ++;
+                    setMealMeat(mealIdInt);
                     mSQLiteHelper.addDisplayedData(mealIdInt);
                     mSQLiteHelper.addLikedData(mealIdInt);
                     Toast.makeText(getActivity(), "You Liked " + mealName.getText(), Toast.LENGTH_SHORT).show();
@@ -99,11 +107,13 @@ public class Tab2Explore extends Fragment {
                     Toast.makeText(getActivity(), "You Matched With " + mealName.getText(), Toast.LENGTH_LONG).show();
                     mSQLiteHelper.addMatchesData(mealId);
                     mSQLiteHelper.dropDispayedLikedTables();
-                    displayedMealIds = new LinkedList<>();
-                    displayedLength = 0;
-                    likedMealIds = new LinkedList<>();
-                    likedLength = 0;
-                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    clean();
+//                    displayedMealIds = new LinkedList<>();
+//                    displayedLength = 0;
+//                    likedMealIds = new LinkedList<>();
+//                    likedLength = 0;
+                    Intent intent = new Intent(getActivity(), ViewMatch.class);
+                    intent.putExtra("id",mealId);
                     startActivity(intent);
                 }//end of id
             }
@@ -130,18 +140,21 @@ public class Tab2Explore extends Fragment {
         if(displayedLength == 5){
             //choose a match
             if(likedLength != 0){
-                int matchedMealIdInt = likedMealIds.peekLast();
-                String macthedMealId = String.valueOf(matchedMealIdInt);
-                Cursor mealData =mSQLiteHelper.getMealData();
-                mealData.move(matchedMealIdInt);
+//                int matchedMealIdInt = likedMealIds.peekLast();
+//                String macthedMealId = String.valueOf(matchedMealIdInt);
+//                Cursor mealData =mSQLiteHelper.getMealData();
+//                mealData.move(matchedMealIdInt);
+//                String mealName = mealData.getString(1);
+
+                String matchedMealId = matchingAlg();
+                Cursor mealData = mSQLiteHelper.getMealData();
+                mealData.move(mealIdInt);
                 String mealName = mealData.getString(1);
                 Toast.makeText(getActivity(), "You Matched With " + mealName, Toast.LENGTH_LONG).show();
-                mSQLiteHelper.addMatchesData(macthedMealId);
+                mSQLiteHelper.addMatchesData(String.valueOf(matchedMealId));
                 mSQLiteHelper.dropDispayedLikedTables();
-                displayedMealIds = new LinkedList<>();
-                displayedLength = 0;
-                likedMealIds = new LinkedList<>();
-                likedLength = 0;
+                mSQLiteHelper.dropMeatsTables();
+                clean();
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
             }//end of if
@@ -188,21 +201,15 @@ public class Tab2Explore extends Fragment {
             isValidMeal = true;
         }//end of if
         else if(newMealId == matchIdFlag){
-            //match meal
-            int matchedMealIdInt = likedMealIds.peekLast();
-            String macthedMealId = String.valueOf(matchedMealIdInt);
-            Cursor mealData =mSQLiteHelper.getMealData();
-            mealData.move(matchedMealIdInt + 1);
+            String matchedMealId = matchingAlg();
+            Cursor mealData = mSQLiteHelper.getMealData();
+            mealData.move(mealIdInt);
             String mealName = mealData.getString(1);
             Toast.makeText(getActivity(), "You Matched With " + mealName, Toast.LENGTH_LONG).show();
-            mSQLiteHelper.addMatchesData(macthedMealId);
+            mSQLiteHelper.addMatchesData(String.valueOf(matchedMealId));
             mSQLiteHelper.dropDispayedLikedTables();
-            mSQLiteHelper.dropDispayedLikedTables();
-            displayedLength = 0;
-            displayedMealIds = new LinkedList<>();
-            likedLength = 0;
-            likedMealIds = new LinkedList<>();
-            isValidMeal = true;
+            mSQLiteHelper.dropMeatsTables();
+            clean();
             Intent intent = new Intent(getActivity(), MainActivity.class);
             startActivity(intent);
             nextMeal(mSQLiteHelper);
@@ -214,62 +221,104 @@ public class Tab2Explore extends Fragment {
         }//end of else
     }//end of set meal
 
-    public int matchingAlg(){
-        return 1;
-//        JSONObject obj = JSONUtils.getJSONObjectFromFile("/obj.json");
-//
-//        JSONArray jsonArray = obj.getJSONArray("Chicken");
-//        int chicken = jsonArray.length();
-//        int rnd1 = new Random().nextInt(jsonArray.length());
-//        //System.out.println(chicken);
-//
-//        JSONArray jsonArray2 = obj.getJSONArray("Beef");
-//        int beef = jsonArray2.length();
-//        int rnd2 = new Random().nextInt(jsonArray2.length());
-//        //System.out.println(beef);
-//
-//        JSONArray jsonArray3 = obj.getJSONArray("Pork");
-//        int pork = jsonArray3.length();
-//        int rnd3 = new Random().nextInt(jsonArray3.length());
-//        //System.out.println(pork);
-//
-//        JSONArray jsonArray4 = obj.getJSONArray("Fish");
-//        int fish = jsonArray4.length();
-//        int rnd4 = new Random().nextInt(jsonArray4.length());
-//        //System.out.println(fish);
-//
-//        JSONArray jsonArray5 = obj.getJSONArray("Turkey");
-//        int turkey = jsonArray5.length();
-//        int rnd5 = new Random().nextInt(jsonArray5.length());
-//        //System.out.println(turkey);
-//
-//        JSONArray matchedMeals = obj.getJSONArray("Matched Meals");
-//
-//        if ((turkey >= chicken) && (turkey >= beef) && (turkey >= pork) && (turkey >= fish)) {
-//            System.out.println ("Your most desired meal is " + "turkey. " + "You liked " + turkey + " turkey meals.");
-//            System.out.println ("We recommend meal " + rnd5 + ".");
-//            matchedMeals.put(rnd5);
-//        } else if ((fish >= chicken) && (fish >= beef) && (fish >= pork)) {
-//            System.out.println ("Your most desired meal is " + "fish. " + "You liked " + fish + " fish meals.");
-//            System.out.println ("We recommend meal " + rnd4 + ".");
-//            matchedMeals.put(rnd4);
-//        } else if ((chicken >= beef) && (chicken >= pork)) {
-//            System.out.println ("Your most desired meal is " + "chicken. " + "You liked " + chicken + " chicken meals.");
-//            System.out.println ("We recommend meal " + rnd1 + ".");
-//            matchedMeals.put(rnd1);
-//
-//        } else if (beef >= pork) {
-//            System.out.println ("Your most desired meal is " + "beef. " + "You liked " + beef + " beef meals.");
-//            System.out.println ("We recommend meal " + rnd2 + ".");
-//            matchedMeals.put(rnd2);
-//        } else {
-//            System.out.println ("Your most desired meal is " + "pork. " + "You liked " + pork + " pork meals.");
-//            System.out.println ("We recommend meal " + rnd3 + ".");
-//            matchedMeals.put(rnd3);
-//        }
-//
-//        System.out.println(obj);
+    public void setMealMeat(int mealIdInt){
+        Cursor allMealData = mSQLiteHelper.getMealData();
+        allMealData.move(mealIdInt + 1);
+        String meatType = allMealData.getString(8);
+        switch (meatType){
+            case "beef":{
+                beefMeals.push(mealIdInt);
+                mSQLiteHelper.addBeefData(mealIdInt);
+                beefLength ++;
+                break;
+            }//end of beef
+            case "pork":{
+                porkMeals.push(mealIdInt);
+                mSQLiteHelper.addPorkData(mealIdInt);
+                porkLength ++;
+                break;
+            }//end of beef
+            case "chicken":{
+                chickenMeals.push(mealIdInt);
+                mSQLiteHelper.addChickenData(mealIdInt);
+                chickenLength ++;
+                break;
+            }//end of beef
+            case "fish":{
+                fishMeals.push(mealIdInt);
+                mSQLiteHelper.addFishData(mealIdInt);
+                fishLength ++;
+                break;
+            }//end of beef
+            case "turkey":{
+                turkeyMeals.push(mealIdInt);
+                mSQLiteHelper.addTurkeyData(mealIdInt);
+                turkeyLength ++;
+                break;
+            }//end of beef
+        }//end of switch
+    }//end of setMealMeat
+
+    public String matchingAlg(){
+        int rndBeef = 0;
+        int rndTurkey = 0;
+        int rndFish = 0;
+        int rndChicken = 0;
+        int rndPork = 0;
+        if(beefLength > 0){
+            rndBeef = new Random().nextInt(beefLength);
+        }//end of if
+        if(chickenLength > 0){
+            rndChicken = new Random().nextInt(chickenLength);
+        }//end of if
+        if(porkLength > 0){
+            rndPork = new Random().nextInt(porkLength);
+        }//end of if
+        if(fishLength > 0){
+            rndFish = new Random().nextInt(fishLength);
+        }//end of if
+        if(turkeyLength > 0){
+            rndTurkey = new Random().nextInt(turkeyLength);
+        }//end of if
+
+
+        int mealInt = 0;
+        if ((turkeyLength != 0) && (turkeyLength >= chickenLength) && (turkeyLength >= beefLength) && (turkeyLength >= porkLength) && (turkeyLength >= fishLength)) {
+            mealInt = turkeyMeals.get(rndTurkey);
+        }//end of if
+        else if ((fishLength != 0) && (fishLength >= chickenLength) && (fishLength >= beefLength) && (fishLength >= porkLength)) {
+            mealInt = fishMeals.get(rndFish);
+        }//end of else if
+        else if ((chickenLength != 0) && (chickenLength >= beefLength) && (chickenLength >= porkLength)) {
+            mealInt = chickenMeals.get(rndChicken);
+        }//end of else if
+        else if (beefLength != 0 && beefLength >= porkLength) {
+            mealInt = beefMeals.get(rndBeef);
+        }//end of else if
+        else if(porkLength != 0){
+            mealInt = porkMeals.get(rndPork);
+        }//end of else if
+
+        String mealId = String.valueOf(mealInt);
+        return mealId;
     }//end of matchingAlg
+
+    public void clean(){
+        mSQLiteHelper.dropDispayedLikedTables();
+        mSQLiteHelper.dropMeatsTables();
+        displayedMealIds = new LinkedList<>();
+        displayedLength = 0;
+        likedMealIds = new LinkedList<>();
+        likedLength = 0;
+        beefMeals = new LinkedList<>();
+        beefLength = 0;
+        porkMeals = new LinkedList<>();
+        porkLength = 0;
+        chickenMeals = new LinkedList<>();
+        chickenLength = 0;
+        fishMeals = new LinkedList<>();
+        fishLength = 0;
+    }//end of clean
 
     public int getRandomMealId(SQLiteHelper mSQLiteHelper){
         int randomId;

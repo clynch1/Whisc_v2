@@ -25,7 +25,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_main_activity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CreateAccount"
             android:label="@string/title_activity_create_account" />
@@ -37,7 +37,8 @@
         <activity android:name=".EditMeal" />
         <activity android:name=".AddIngredient" />
         <activity android:name=".EditIngredient" />
-        <activity android:name=".AccountSettingsHolder"></activity>
+        <activity android:name=".AccountSettingsHolder" />
+        <activity android:name=".ViewMatch"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="fill_parent"
+        android:layout_height="600dp"
+        android:fillViewport="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp">
+
+            <ImageView
+                android:id="@+id/viewImageMeal"
+                android:layout_width="450dp"
+                android:layout_height="200dp"
+                app:srcCompat="@mipmap/meal182"
+                android:layout_marginTop="47dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+
+            <TextView
+                android:id="@+id/textMealDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Meal Description"
+                android:layout_below="@+id/viewImageMeal"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/viewMealDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textMultiLine"
+                android:text="Meal Description"
+                android:layout_below="@+id/textMealDescription"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/textPrepTime"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:text="Prep Time"
+                android:textSize="18sp"
+                android:layout_below="@+id/viewMealDescription"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/viewPrepTime"
+                android:layout_width="190dp"
+                android:layout_height="40dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textPrepTime"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Prep Time" />
+
+
+            <TextView
+                android:id="@+id/textCookTime"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:text="Cook Time"
+                android:textSize="18sp"
+                android:layout_alignBaseline="@+id/textPrepTime"
+                android:layout_alignBottom="@+id/textPrepTime"
+                android:layout_toRightOf="@+id/textPrepTime"
+                android:layout_toEndOf="@+id/textPrepTime" />
+
+            <TextView
+                android:id="@+id/viewCookTime"
+                android:layout_width="190dp"
+                android:layout_height="40dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Cook Time"
+                android:layout_below="@+id/textCookTime"
+                android:layout_toRightOf="@+id/viewPrepTime"
+                android:layout_toEndOf="@+id/viewPrepTime" />
+
+            <TextView
+                android:id="@+id/textServingSize"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:text="Serving Size"
+                android:textSize="18sp"
+                android:layout_below="@+id/textPrepTime"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="31dp" />
+
+            <TextView
+                android:id="@+id/viewServingSize"
+                android:layout_width="190dp"
+                android:layout_height="40dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Serving Size"
+                android:layout_below="@+id/textServingSize"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:id="@+id/textMealDirections"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Meal Directions"
+                android:textSize="18sp"
+                android:layout_below="@+id/textServingSize"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="31dp" />
+
+            <TextView
+                android:id="@+id/viewMealDirections"
+                android:layout_width="400dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textMultiLine"
+                android:text="Meal Directions"
+                android:layout_below="@+id/textMealDirections"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="7dp" />
+
+            <TextView
+                android:id="@+id/textMealIngredients"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Meal Ingredients"
+                android:textSize="18sp"
+                android:layout_below="@+id/viewMealDirections"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="9dp" />
+
+            <ListView
+                android:id="@id/listIngredients"
+                android:layout_width="match_parent"
+                android:layout_height="1000dp"
+                android:layout_below="@+id/textMealIngredients"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="9dp" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/matchReviewLater"
+        android:layout_width="200dp"
+        android:layout_height="48dp"
+        android:background="@drawable/rounded_button"
+        android:padding="10dp"
+        android:layout_margin="5dp"
+        android:text="Review Later"
+        android:textColor="@color/colorButtonText"
+        android:layout_below="@+id/scrollView1"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"/>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar3"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/viewMealName"
+        android:layout_width="340dp"
+        android:layout_height="20dp"
+        android:ems="10"
+        android:textColor="@color/colorBackground"
+        android:textColorHint="@color/colorBackground"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="Meal Name"
+        android:layout_marginBottom="10dp"
+        android:layout_alignBottom="@+id/toolbar3"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp" />
+
+
+</RelativeLayout>

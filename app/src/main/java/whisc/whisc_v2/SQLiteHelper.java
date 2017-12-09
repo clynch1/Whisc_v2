@@ -52,23 +52,23 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     private static final String L_COL1 = "id";
     private static final String L_COL2 = "meal_id";
 
-    private static final String BEEF_TABLE = "liked_table";
+    private static final String BEEF_TABLE = "beef_table";
     private static final String BE_COL1 = "id";
     private static final String BE_COL2 = "meal_id";
 
-    private static final String PORK_TABLE = "liked_table";
+    private static final String PORK_TABLE = "pork_table";
     private static final String P_COL1 = "id";
     private static final String P_COL2 = "meal_id";
 
-    private static final String CHICKEN_TABLE = "liked_table";
+    private static final String CHICKEN_TABLE = "chicken_table";
     private static final String C_COL1 = "id";
     private static final String C_COL2 = "meal_id";
 
-    private static final String FISH_TABLE = "liked_table";
+    private static final String FISH_TABLE = "fish_table";
     private static final String F_COL1 = "id";
     private static final String F_COL2 = "meal_id";
 
-    private static final String TURKEY_TABLE = "liked_table";
+    private static final String TURKEY_TABLE = "turkey_table";
     private static final String T_COL1 = "id";
     private static final String T_COL2 = "meal_id";
 
@@ -510,6 +510,14 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         return data;
     }//end of getMealID
 
+    public Cursor getMealName(String mealId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT " + COL2 + " FROM " + TABLE_MEAL +
+                " WHERE " + COL1 + " = '" + mealId + "'";
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }//end of getMealID
+
     public Cursor getIngredientID(String mealID, String name){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT " + B_COL1 + " FROM " + TABLE_INGREDIENTS +
@@ -530,6 +538,14 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_INGREDIENTS +
                 " WHERE " + B_COL2 + " = '" + mealID + "'";
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }//end of getMealID
+
+    public Cursor getMealMeatType(String mealID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT " + COL9 +" FROM " + TABLE_MEAL +
+                " WHERE " + COL1 + " = '" + mealID + "'";
         Cursor data = db.rawQuery(query, null);
         return data;
     }//end of getMealID
