@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_account_circle_black_24dp);
-        tabLayout.getTabAt(1).setIcon(R.drawable.ic_dashboard_black_24dp);
+        tabLayout.getTabAt(1).setIcon(R.mipmap.ic_explore);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_favorite_black_24dp);
 
 //        sqliteDB = new SQLiteHelper(this);
